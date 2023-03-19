@@ -15,6 +15,7 @@ public class enemyGenerater : MonoBehaviour
     }
     public List<spawnpool> spawnpools;
     public Dictionary<string,Queue<GameObject>> poolDictionary;
+    private int random;
     void Start(){
         poolDictionary=new Dictionary<string, Queue<GameObject>>();
         foreach(spawnpool spawnpool in spawnpools){

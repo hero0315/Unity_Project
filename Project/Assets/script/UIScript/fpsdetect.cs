@@ -9,6 +9,7 @@ public class fpsdetect : MonoBehaviour
     private int count;
     private float deltaTime;
     public int FrameRate;
+    private float fps;
     void Start(){
         Application.targetFrameRate = FrameRate;
     }
@@ -16,14 +17,12 @@ public class fpsdetect : MonoBehaviour
     {
         count++;
         deltaTime += Time.deltaTime;
-
-    if (deltaTime >= 0.5f)
-    {
-        var fps = count/deltaTime;
-        count = 0;
-        deltaTime = 0;
-        fpsText.text = $"FPS: {Mathf.Ceil(fps)}";
-    }
-    
+        if (deltaTime >= 0.5f)
+        {
+            fps = count/deltaTime;
+            count = 0;
+            deltaTime = 0;
+            fpsText.text = $"FPS: {Mathf.Ceil(fps)}";
+        }
     }
 }

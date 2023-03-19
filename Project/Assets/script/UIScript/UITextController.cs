@@ -27,22 +27,10 @@ public class UITextController : MonoBehaviour
     }
     void Update(){
         if(playerState.exp!=currentExp){
-            if(playerState.exp>=levelup[playerState.level-1]){
-                while(playerState.exp>=levelup[playerState.level-1]){
-                    levelUp();
-                }
-            }
-            expText.text=playerState.exp+" / "+levelup[playerState.level-1];
-            expSlider.value=playerState.exp;
-            currentExp=playerState.exp;
+            gotexp();
         }
         if(playerState.playerHealth!=currentHealth){
-            currentHealth=playerState.playerHealth;
-            lifeSlider.value=currentHealth;
-            lifeText.text=playerState.playerHealth+" / "+maxHealth;
-            if(playerState.playerHealth<=0){
-                Debug.Log("You Lose!!");
-            }
+            getdamaged();
         }
     }
     public void setMaxHealth(float newMaxlife){
@@ -57,5 +45,21 @@ public class UITextController : MonoBehaviour
         expText.text=playerState.exp+" / "+levelup[playerState.level-1];
         expSlider.value=playerState.exp;
         expSlider.maxValue=levelup[playerState.level-1];
+    }
+    private void gotexp(){
+        while(playerState.exp>=levelup[playerState.level-1]){
+            levelUp();
+        }
+        expText.text=playerState.exp+" / "+levelup[playerState.level-1];
+        expSlider.value=playerState.exp;
+        currentExp=playerState.exp;
+    }
+    private void getdamaged(){
+        currentHealth=playerState.playerHealth;
+        lifeSlider.value=currentHealth;
+        lifeText.text=playerState.playerHealth+" / "+maxHealth;
+        if(playerState.playerHealth<=0){
+            Debug.Log("You Lose!!");
+        }
     }
 }

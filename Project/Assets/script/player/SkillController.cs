@@ -20,21 +20,24 @@ public class SkillController : MonoBehaviour
         public bool iscooldowning=false;
     }
     public List<skillpool> skillpools;
+    void Start(){
+        foreach(skillpool skill in skillpools){
+            skill.cooldown=playerState.playerCastspeed*skill.spellcastspeed;
+        }
+    }
     void Update()
     {
             foreach(skillpool skill in skillpools){
                 if(Input.GetButton(skill.buttonName)&&skill.iscooldowning==false){
                     mousepos= cam.ScreenToWorldPoint(Input.mousePosition);
                     Fireproject(skill);
-                    skill.cooldown=playerState.playerCastspeed*skill.spellcastspeed;
                     skill.iscooldowning=true;
-                    skill.skillImage.fillAmount=1;
+                    skill.skillImage.fillAmount=0;
                 }
                 else if(skill.iscooldowning==true){
-                    skill.skillImage.fillAmount-= 1/ skill.cooldown*Time.deltaTime;
-                    if(skill.skillImage.fillAmount<=0){
+                    skill.skillImage.fillAmount+= 1/ skill.cooldown*Time.deltaTime;
+                    if(skill.skillImage.fillAmount>=1){
                         skill.iscooldowning=false;
-                        skill.skillImage.fillAmount=0;
                     }
                 }
         }
