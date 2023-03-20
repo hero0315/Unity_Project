@@ -16,6 +16,7 @@ public class MenuController : MonoBehaviour
         }
     }
     public void quitgame(){
+        SaveSystem.SavePlayerdata();
         Application.Quit();
     }
     public void returngame(){
