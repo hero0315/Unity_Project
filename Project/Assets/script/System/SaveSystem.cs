@@ -1,21 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 public class SaveSystem : MonoBehaviour
-{
+{ 
+    void Start(){
+        if(!File.Exists(Application.persistentDataPath+"/player.txt")){
+            string path = Application.persistentDataPath+"/player.txt";
+            PlayerData data=new PlayerData();
+            BinaryFormatter formatter=new BinaryFormatter();
+            FileStream stream = new FileStream(path,FileMode.Create);
+            formatter.Serialize(stream,data);
+            stream.Close();
+        }
+    }
     public static void SavePlayerdata(){
-        BinaryFormatter formatter=new BinaryFormatter();
-        string path=Application.persistentDataPath+"/player.data";
-        FileStream stream = new FileStream(path,FileMode.Create);
+        string path = Application.persistentDataPath+"/player.txt";
         PlayerData data=new PlayerData();
+        BinaryFormatter formatter=new BinaryFormatter();
+        FileStream stream = new FileStream(path,FileMode.Create);
         formatter.Serialize(stream,data);
         stream.Close();
     }
-    public static void LoadPlayerdata(){
-        string path = Application.persistentDataPath+"/player.data";
+    public static PlayerData LoadPlayerdata(){
+        string path = Application.persistentDataPath+"/player.txt";
         if(File.Exists(path)){
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path,FileMode.Open);
@@ -23,12 +31,11 @@ public class SaveSystem : MonoBehaviour
             playerState.level=data.level;
             playerState.exp=data.level;
             stream.Close();
+            return data;
         }
         else{
-            Debug.Log("Save Error!");
+            Debug.Log("Load Error!");
+            return null;
         }
-    }
-    void Awake(){
-        LoadPlayerdata();
-    }
+    }  
 }

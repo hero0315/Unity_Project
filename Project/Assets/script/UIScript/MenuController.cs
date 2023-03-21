@@ -4,6 +4,7 @@ public class MenuController : MonoBehaviour
 {
     [SerializeField] GameObject menu;
     [SerializeField] GameObject Setting;
+    [SerializeField] GameObject Savesystem;
     private bool ismenuopen=false;
     void Update(){
         if(Input.GetKeyDown("escape")){
