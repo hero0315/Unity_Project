@@ -35,6 +35,8 @@ public class MenuController : MonoBehaviour
         Setting.SetActive(true);
     }
     public void mainmenu(){
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene("MainMenu");
     }
 }

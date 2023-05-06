@@ -10,16 +10,29 @@ public class SkillController : MonoBehaviour
     [System.Serializable]
     public class skillpool{
         public GameObject skill;
+        public string skillname;
         public float projectforce=3f;
         public float spellcastspeed=1;
         public float fixangle=0;
         public string buttonName;
+        [System.NonSerialized]
         public float cooldown;
         public GameObject SkillIcon;
         public Image skillImage; 
+        [System.NonSerialized]
         public bool iscooldowning=false;
     }
-    public List<skillpool> skillpools;
+    [SerializeField]
+    private List<skillpool> skillpools;
+    public string GetSkillName(int num){
+        return skillpools[num].skillname;
+    }
+    public Sprite GetSkillSprite(int num){
+        return skillpools[num].skillImage.sprite;
+    }
+    public int GetSkillCount(){
+        return skillpools.Count;
+    }
     void Start(){
         foreach(skillpool skill in skillpools){
             skill.cooldown=playerState.playerCastspeed*skill.spellcastspeed;

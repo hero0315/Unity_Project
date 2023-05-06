@@ -12,7 +12,9 @@ public class UITextController : MonoBehaviour
     [SerializeField]private Slider expSlider;
     [SerializeField]private Text lifeText;
     [SerializeField]private Slider lifeSlider;
+    [SerializeField]private GameObject LevelSelect;
     private int[]level_need_exp;
+    [SerializeField]private LevelSelectController levelSelectController;
     void Start(){    
         PlayerData data = SaveSystem.LoadPlayerdata();
         playerState.level=data.level;
@@ -49,6 +51,9 @@ public class UITextController : MonoBehaviour
         expText.text=playerState.exp+" / "+level_need_exp[playerState.level-1];
         expSlider.value=playerState.exp;
         expSlider.maxValue=level_need_exp[playerState.level-1];
+        LevelSelect.SetActive(true);
+        levelSelectController.setSelectsActive();
+        Time.timeScale = 0;
     }
     private void gotexp(){
         while(playerState.exp>=level_need_exp[playerState.level-1]){
