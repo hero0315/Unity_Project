@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,7 @@ public class SkillController : MonoBehaviour
 {
     [SerializeField]private GameObject firepoint;
     private Vector2 mousepos;
+    private Vector2 mouseposOnworld;
     [SerializeField]private Camera cam;
     [System.Serializable]
     public class skillpool{
@@ -21,6 +23,7 @@ public class SkillController : MonoBehaviour
         public Image skillImage; 
         [System.NonSerialized]
         public bool iscooldowning=false;
+        public string type;
     }
     [SerializeField]
     private List<skillpool> skillpools;
@@ -42,8 +45,9 @@ public class SkillController : MonoBehaviour
     {
             foreach(skillpool skill in skillpools){
                 if(Input.GetButton(skill.buttonName)&&skill.iscooldowning==false){
-                    mousepos= cam.ScreenToWorldPoint(Input.mousePosition);
-                    Fireproject(skill);
+                    mouseposOnworld=Input.mousePosition;
+                    mousepos= cam.ScreenToWorldPoint(mouseposOnworld);
+                    Attack(skill);
                     skill.iscooldowning=true;
                     skill.skillImage.fillAmount=0;
                 }
@@ -55,12 +59,20 @@ public class SkillController : MonoBehaviour
                 }
         }
     }
-    void Fireproject(skillpool skill){
+    private void Attack(skillpool skill){
+        if(skill.type=="project"){
         Vector2 dir = mousepos-(Vector2)firepoint.transform.position;
         firepoint.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f);
-        GameObject projectile = Instantiate(skill.skill,firepoint.transform.position,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f+90f+skill.fixangle));
-        Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+        GameObject attackObject = Instantiate(skill.skill,firepoint.transform.position,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg+skill.fixangle));
+        Rigidbody2D rb = attackObject.GetComponent<Rigidbody2D>();
         rb.AddForce(firepoint.transform.up*skill.projectforce,ForceMode2D.Impulse);
+        }
+        else if(skill.type=="electric"){
+        Vector2 dir = mousepos-(Vector2)firepoint.transform.position;
+        firepoint.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f);
+        double length = Math.Sqrt(Math.Pow(firepoint.transform.position.x-mousepos.x,2)+Math.Pow(firepoint.transform.position.y-mousepos.y,2));
+        GameObject attackObject = Instantiate(skill.skill,(mousepos-(Vector2)firepoint.transform.position)/2,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg+skill.fixangle));
+        attackObject.transform.localScale=new Vector3((float)length*2/10,(float)0.25,(float)0.25);
+        }
     }
-
 }

@@ -317,14 +317,16 @@ MonoBehaviour:
     buttonName: mouse1
     SkillIcon: {fileID: 1747284139}
     skillImage: {fileID: 1747284141}
-  - skill: {fileID: 4492382269066828483, guid: 2eb04323989d1a3499faabab9210c3b6, type: 3}
-    skillname: fireball1
-    projectforce: 8
+    type: project
+  - skill: {fileID: 3700804383613701927, guid: 80d210ede8fc83b4fac1646bd05fdc58, type: 3}
+    skillname: LightningBlast
+    projectforce: 0
     spellcastspeed: 1
     fixangle: 0
     buttonName: Q
     SkillIcon: {fileID: 1670379858}
     skillImage: {fileID: 1670379860}
+    type: electric
 --- !u!1 &172051565
 GameObject:
   m_ObjectHideFlags: 0
@@ -16936,7 +16938,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 84b186ccfaa1d4740b9a64fb874d6d60, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6eb53c8f7b1cda349ac902ba287377f6, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1

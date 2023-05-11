@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-public class attackController : MonoBehaviour
+public class FireBall : MonoBehaviour , Attack
 {
     [SerializeField]private float Destroysecond;
     [SerializeField]private float basedamage;

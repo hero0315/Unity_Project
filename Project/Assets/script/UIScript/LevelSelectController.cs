@@ -37,7 +37,7 @@ public class LevelSelectController : MonoBehaviour
             skillpools.Add(new skill(SkillController.GetSkillName(i),SkillController.GetSkillSprite(i)));
         }
         foreach(Select select in Selects){
-            select.setSprite(skillpools[Random.Range(0,skillCount-1)].GetskillSprite());
+            select.setSprite(skillpools[Random.Range(0,skillCount)].GetskillSprite());
         }
 
     }
