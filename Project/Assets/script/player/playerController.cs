@@ -10,7 +10,7 @@ public class playerController : MonoBehaviour
     void Awake(){
         setmovespeed(originmovespeed);
         setcastspeed(origincastspeed);
-        setfiredamage(originfiredamage);
+        setFireballdamage(originfiredamage);
     }
     
     public float setmovespeed(float movespeed){
@@ -28,9 +28,9 @@ public class playerController : MonoBehaviour
         playerState.playerHealth=health;
         return temp;
     }
-    public float setfiredamage(float firedamage){
-        float temp=playerState.playerfiredamage;
-        playerState.playerfiredamage=firedamage;
+    public float setFireballdamage(float firedamage){
+        float temp=playerState.playerFireballdamage;
+        playerState.playerFireballdamage=firedamage;
         return temp;
     }
     void Update(){

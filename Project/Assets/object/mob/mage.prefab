@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1437853301479881857}
   - component: {fileID: 1437853301479881856}
   - component: {fileID: 1437853301479881859}
-  - component: {fileID: 1437853301479882108}
   - component: {fileID: 135477509}
   - component: {fileID: 9007532613045907643}
   m_Layer: 0
@@ -125,28 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAnimator: {fileID: 1437853301479881856}
   cam: {fileID: 0}
---- !u!114 &1437853301479882108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1437853301479881863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc5302d18dab563448022ab0a7c92100, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firepoint: {fileID: 1437853301526679608}
-  cam: {fileID: 0}
-  attackpools:
-  - attack: {fileID: 4492382269066828483, guid: 2eb04323989d1a3499faabab9210c3b6,
-      type: 3}
-    projectforce: 7
-    spellcastspeed: 1
-    fixangle: 0
-    buttonName: mouse1
-    cooldown: 0
+  firepoint: {fileID: 0}
 --- !u!114 &135477509
 MonoBehaviour:
   m_ObjectHideFlags: 0

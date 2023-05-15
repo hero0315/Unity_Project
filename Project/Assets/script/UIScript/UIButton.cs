@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class MenuController : MonoBehaviour
+public class UIButton : MonoBehaviour
 {
     [SerializeField] GameObject menu;
     [SerializeField] GameObject Setting;
@@ -39,4 +39,5 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene("MainMenu");
     }
+    
 }

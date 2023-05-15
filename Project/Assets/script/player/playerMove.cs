@@ -7,6 +7,7 @@ public class playerMove : MonoBehaviour
     private SpriteRenderer SpriteRenderer;
     private Vector3 mousepos;
     [SerializeField]private Camera cam;
+    [SerializeField]private GameObject firepoint;
     void Start()
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
