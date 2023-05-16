@@ -125,7 +125,6 @@ MonoBehaviour:
   originhealth: 50
   damage: 20
   attackcooldown: 0.5
-  cooldown: 0
   killexp: 60
 --- !u!50 &6262815889447261557
 Rigidbody2D:
@@ -158,7 +157,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.00046402216, y: 0.0055693537}

@@ -23,12 +23,12 @@ public class LevelSelectController : MonoBehaviour
             return skillSprite;
         }
     }
-    
     List<skill> skillpools = new List<skill>();
     [System.Serializable]
     public class Select{
         [SerializeField]private GameObject SelectSkill;
         [SerializeField]public Text SkillDescript;
+        public int SelectRandom;
         public skill Skill;
         public void setSprite(Sprite sprite){
             SelectSkill.GetComponent<Image>().sprite=sprite;
@@ -50,7 +50,22 @@ public class LevelSelectController : MonoBehaviour
             select.setSprite(_skill.GetskillSprite());
             switch (_skill.skillname){
                 case "Fireball":
-                    select.SkillDescript.text=Fireball.GetComponent<FireBall>().Upgrade1Descript();
+                select.SelectRandom = Random.Range(1,Fireball.GetComponent<FireBall>().getUpgradeNum()+1);
+                Debug.Log(Fireball.GetComponent<FireBall>().getUpgradeNum());
+                switch (select.SelectRandom){
+                        case 1:
+                            select.SkillDescript.text=Fireball.GetComponent<FireBall>().Upgrade1Descript();
+                            break;
+                        case 2:
+                            select.SkillDescript.text=Fireball.GetComponent<FireBall>().Upgrade2Descript();
+                            break;
+                        case 3:
+                            select.SkillDescript.text=Fireball.GetComponent<FireBall>().Upgrade3Descript();
+                            break;
+                        case 4:
+                            select.SkillDescript.text=Fireball.GetComponent<FireBall>().Upgrade4Descript();
+                            break;
+                    }
                     break;
                 case"LightningBlast":
                     break;
@@ -58,39 +73,40 @@ public class LevelSelectController : MonoBehaviour
         }
     }
     public void LevelSelect1(){
-        string name=Selects[0].Skill.skillname;
-        switch (name){
-                case "Fireball":
-                    Fireball.GetComponent<FireBall>().Upgrade1();
-                    break;
-                case"LightningBlast":
-                    break;
-            }
+        selectUpgrade(Selects[0].Skill.skillname,Selects[0].SelectRandom);
         Time.timeScale = 1;
         LevelSelect.SetActive(false);
     }
     public void LevelSelect2(){
-        string name=Selects[1].Skill.skillname;
-        switch (name){
-                case "Fireball":
-                        Fireball.GetComponent<FireBall>().Upgrade1();
-                    break;
-                case"LightningBlast":
-                    break;
-            }
+        selectUpgrade(Selects[1].Skill.skillname,Selects[1].SelectRandom);
         Time.timeScale = 1;
         LevelSelect.SetActive(false);
     }
     public void LevelSelect3(){
-        string name=Selects[2].Skill.skillname;
+        selectUpgrade(Selects[2].Skill.skillname,Selects[2].SelectRandom);
+        Time.timeScale = 1;
+        LevelSelect.SetActive(false);
+    }
+    void selectUpgrade(string name,int selectRandom){
         switch (name){
                 case "Fireball":
-                    Fireball.GetComponent<FireBall>().Upgrade1();
+                    switch (selectRandom){
+                        case 1:
+                            Fireball.GetComponent<FireBall>().Upgrade1();
+                            break;
+                        case 2:
+                            Fireball.GetComponent<FireBall>().Upgrade2();
+                            break;
+                        case 3:
+                            Fireball.GetComponent<FireBall>().Upgrade3();
+                            break;
+                        case 4:
+                            Fireball.GetComponent<FireBall>().Upgrade4();
+                            break;
+                    }
                     break;
                 case"LightningBlast":
                     break;
             }
-        Time.timeScale = 1;
-        LevelSelect.SetActive(false);
     }
 }

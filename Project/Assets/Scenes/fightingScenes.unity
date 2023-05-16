@@ -369,22 +369,16 @@ MonoBehaviour:
   skillpools:
   - skill: {fileID: 4492382269066828483, guid: 2eb04323989d1a3499faabab9210c3b6, type: 3}
     skillname: Fireball
-    projectforce: 8
-    spellcastspeed: 1
-    fixangle: 0
     buttonName: mouse1
+    spellcastspeed: 1
     SkillIcon: {fileID: 1747284139}
     skillImage: {fileID: 1747284141}
-    type: project
   - skill: {fileID: 3700804383613701927, guid: 80d210ede8fc83b4fac1646bd05fdc58, type: 3}
     skillname: LightningBlast
-    projectforce: 0
-    spellcastspeed: 1
-    fixangle: 0
     buttonName: Q
+    spellcastspeed: 1
     SkillIcon: {fileID: 1670379858}
     skillImage: {fileID: 1670379860}
-    type: electric
 --- !u!1 &145407905
 GameObject:
   m_ObjectHideFlags: 0
@@ -14655,10 +14649,13 @@ MonoBehaviour:
   Selects:
   - SelectSkill: {fileID: 663928214}
     SkillDescript: {fileID: 145407907}
+    SelectRandom: 0
   - SelectSkill: {fileID: 1706543307}
     SkillDescript: {fileID: 1683362547}
+    SelectRandom: 0
   - SelectSkill: {fileID: 190306506}
     SkillDescript: {fileID: 1343428224}
+    SelectRandom: 0
 --- !u!114 &673574924
 MonoBehaviour:
   m_ObjectHideFlags: 0
