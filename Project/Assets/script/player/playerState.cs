@@ -9,6 +9,7 @@ public class playerState
     public static int playerFireballFireNum=1;
     public static int playerFireballchainNum=2;
     public static float playerLightningBlastdamage=0;
+    public static int playerLightningBlastchainNum=2;
     public static float exp=0;
     public static int level=1;
 }

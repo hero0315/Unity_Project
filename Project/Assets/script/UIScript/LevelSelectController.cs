@@ -39,11 +39,13 @@ public class LevelSelectController : MonoBehaviour
     }
     [SerializeField]
     List<Select> Selects = new List<Select>();
+    Dictionary<int, int> selectRecord=new Dictionary<int, int>();
         public void setSelectsActive(){
         skillCount = SkillController.GetSkillCount();
         for(int i=0;i<skillCount;i++){
             skillpools.Add(new skill(SkillController.GetSkillName(i),SkillController.GetSkillSprite(i)));
         }
+        List<int> selectthisround=new List<int>();
         foreach(Select select in Selects){
             skill _skill=skillpools[Random.Range(0,skillCount)];
             select.setskill(_skill);
@@ -51,7 +53,12 @@ public class LevelSelectController : MonoBehaviour
             switch (_skill.skillname){
                 case "Fireball":
                 select.SelectRandom = Random.Range(1,Fireball.GetComponent<FireBall>().getUpgradeNum()+1);
-                Debug.Log(Fireball.GetComponent<FireBall>().getUpgradeNum());
+                while(selectthisround.Contains(select.SelectRandom)){
+                    select.SelectRandom = Random.Range(1,Fireball.GetComponent<FireBall>().getUpgradeNum()+1);
+                }
+                selectthisround.Add(select.SelectRandom);
+                Addselectrecord(select.SelectRandom);
+
                 switch (select.SelectRandom){
                         case 1:
                             select.SkillDescript.text=Fireball.GetComponent<FireBall>().Upgrade1Descript();
@@ -108,5 +115,43 @@ public class LevelSelectController : MonoBehaviour
                 case"LightningBlast":
                     break;
             }
+    }
+    int Checkselectrecord(int serialNumber){
+        if(serialNumber==1){
+            return selectRecord[1];
+        }
+        else if(serialNumber==2){
+            return selectRecord[2];
+        }
+        else if(serialNumber==3){
+            return selectRecord[3];
+        }
+        else if(serialNumber==4){
+            return selectRecord[4];
+        }
+        else{
+            return (-1);
+        }
+    }
+    void Addselectrecord(int serialNumber){
+        if(!selectRecord.ContainsKey(serialNumber)){
+            selectRecord.Add(serialNumber,1);
+        }
+        else{
+            switch (serialNumber){
+                case 1:
+                    selectRecord[1]+=1;
+                    break;
+                case 2:
+                    selectRecord[2]+=1;
+                    break;
+                case 3:
+                    selectRecord[3]+=1;
+                    break;
+                case 4:
+                    selectRecord[4]+=1;
+                    break;
+            }
+        }
     }
 }
