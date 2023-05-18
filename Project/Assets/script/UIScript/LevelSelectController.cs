@@ -52,14 +52,13 @@ public class LevelSelectController : MonoBehaviour
             select.setSprite(_skill.GetskillSprite());
             switch (_skill.skillname){
                 case "Fireball":
-                select.SelectRandom = Random.Range(1,Fireball.GetComponent<FireBall>().getUpgradeNum()+1);
-                while(selectthisround.Contains(select.SelectRandom)){
                     select.SelectRandom = Random.Range(1,Fireball.GetComponent<FireBall>().getUpgradeNum()+1);
-                }
-                selectthisround.Add(select.SelectRandom);
-                Addselectrecord(select.SelectRandom);
-
-                switch (select.SelectRandom){
+                    while(selectthisround.Contains(select.SelectRandom)){
+                        select.SelectRandom = Random.Range(1,Fireball.GetComponent<FireBall>().getUpgradeNum()+1);
+                    }
+                    selectthisround.Add(select.SelectRandom);
+                    Addselectrecord(select.SelectRandom);
+                    switch (select.SelectRandom){
                         case 1:
                             select.SkillDescript.text=Fireball.GetComponent<FireBall>().Upgrade1Descript();
                             break;
@@ -75,6 +74,20 @@ public class LevelSelectController : MonoBehaviour
                     }
                     break;
                 case"LightningBlast":
+                select.SelectRandom = Random.Range(1,LightningBlast.GetComponent<LightningBlast>().getUpgradeNum()+1);
+                    while(selectthisround.Contains(select.SelectRandom)){
+                        select.SelectRandom = Random.Range(1,LightningBlast.GetComponent<LightningBlast>().getUpgradeNum()+1);
+                    }
+                    selectthisround.Add(select.SelectRandom);
+                    Addselectrecord(select.SelectRandom);
+                    switch (select.SelectRandom){
+                        case 1:
+                            select.SkillDescript.text=LightningBlast.GetComponent<LightningBlast>().Upgrade1Descript();
+                            break;
+                        case 2:
+                            select.SkillDescript.text=LightningBlast.GetComponent<LightningBlast>().Upgrade2Descript();
+                            break;
+                    }
                     break;
             }
         }
@@ -113,6 +126,14 @@ public class LevelSelectController : MonoBehaviour
                     }
                     break;
                 case"LightningBlast":
+                switch (selectRandom){
+                    case 1:
+                        LightningBlast.GetComponent<LightningBlast>().Upgrade1();
+                        break;
+                    case 2:
+                        LightningBlast.GetComponent<LightningBlast>().Upgrade2();
+                        break;
+                    }
                     break;
             }
     }

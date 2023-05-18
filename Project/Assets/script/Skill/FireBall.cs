@@ -68,7 +68,7 @@ public class FireBall : MonoBehaviour , Attack
         return "FireBall Fire +1 Project";
     }
     public string Upgrade4Descript(){
-        return "FireBall Chain to +1 Enemy";
+        return "FireBall Chain +1 Enemy";
     }
     public void Destroy()
     {

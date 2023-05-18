@@ -71,6 +71,7 @@ public class SkillController : MonoBehaviour
             }
     }
     private void Attack(skillpool skill){
+        Resources.UnloadUnusedAssets ();
         if(skill.skillname=="Fireball"){
             dir = mousepos-firepoint.transform.position;
             firepoint.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f);
@@ -90,12 +91,12 @@ public class SkillController : MonoBehaviour
         }
         else if(skill.skillname=="LightningBlast"){
             mousepos.z=0;
-            Vector3 Closest=nearbyDetect.GetComponent<playerNearBy>().getClosest(mousepos);
-            if(Vector3.Distance(mousepos,firepoint.transform.position)>4.2f){
+            GameObject Closest=nearbyDetect.GetComponent<playerNearBy>().getClosest(mousepos);
+            if(Vector3.Distance(mousepos,firepoint.transform.position)>2f){
                 notInRange.SetActive(true);
-                Invoke("setnotInRange",0.5f);
+                Invoke("setnotInRange",0.4f);
             }
-            if(Closest==Vector3.zero){
+            if(Closest==null){
                 float scale= (Vector3.Distance(mousepos,firepoint.transform.position)/2f);
                 Vector3 genpos= new Vector3(((mousepos.x-firepoint.transform.position.x)/scale)/2+firepoint.transform.position.x,((mousepos.y-firepoint.transform.position.y)/scale)/2+firepoint.transform.position.y,0);
                 dir = mousepos-firepoint.transform.position;
@@ -105,11 +106,13 @@ public class SkillController : MonoBehaviour
                 attackObject.transform.localScale=new Vector3((float)distance*2f/10f,0.25f,0.25f);
             }
             else{
-                dir=Closest-firepoint.transform.position;
+                dir=Closest.transform.position-firepoint.transform.position;
                 firepoint.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f);
-                double distance = Vector3.Distance(firepoint.transform.position,Closest);
-                GameObject attackObject = Instantiate(skill.skill,(Closest+firepoint.transform.position)/2,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg));
+                double distance = Vector3.Distance(firepoint.transform.position,Closest.transform.position);
+                GameObject attackObject = Instantiate(skill.skill,(Closest.transform.position+firepoint.transform.position)/2,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg));
                 attackObject.transform.localScale=new Vector3((float)distance*2/10,(float)0.25,(float)0.25);
+                attackObject.GetComponent<LightningBlast>().lastchainNum=playerState.playerLightningBlastchainNum;
+                attackObject.GetComponent<LightningBlast>().setTarget(Closest);
             }
         }
     }
