@@ -23,7 +23,7 @@ public class playerNearBy : MonoBehaviour
         mosdistance=100;
         foreach (GameObject monster in detect){
             mosdistance=Vector3.Distance(monster.transform.position, mouspos);
-            if(mosdistance<=mousemaxdistance){
+            if(mosdistance<=mousemaxdistance&&mosdistance<distance){
                 closest=monster;
                 distance=mosdistance;
             }

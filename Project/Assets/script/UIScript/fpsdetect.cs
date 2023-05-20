@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class fpsdetect : MonoBehaviour
 {
-    public Text fpsText;
+    public TextMeshProUGUI fpsText;
     private int count;
     private float deltaTime;
     public int FrameRate;

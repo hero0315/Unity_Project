@@ -10,14 +10,15 @@ public class SettingController : MonoBehaviour
         public int Vertical;
     }
     [SerializeField]private Text text;
-    [SerializeField]Toggle fullscreenToggle,vsyncToggle;
+    [SerializeField]Toggle fullscreenToggle,vsyncToggle,showfpsToggle;
     [SerializeField]private List<Resolution> ResolutionList;
     [SerializeField]private GameObject menu;
     [SerializeField]private GameObject Setting;
+    [SerializeField]private GameObject fps;
     private int ResolutionNum=0;
-    private bool isfullscreen=true;
     void Start(){
         fullscreenToggle.isOn=Screen.fullScreen;
+        showfpsToggle.isOn=true;
         if(QualitySettings.vSyncCount==0){
             vsyncToggle.isOn=false;
         }
@@ -28,22 +29,18 @@ public class SettingController : MonoBehaviour
         text.text=ResolutionList[0].Horizontal+" X "+ResolutionList[0].Vertical;
     }
     public void changeFullscreen(){
-        if(isfullscreen==false){
-            fullscreenToggle.isOn=true;
-            isfullscreen=true;
+        if(fullscreenToggle.isOn){
+            Screen.fullScreen=true;
         }
         else{
-            fullscreenToggle.isOn=false; 
-            isfullscreen=false;
+            Screen.fullScreen=false;
         }
     }
     public void changeVsync(){
-        if(QualitySettings.vSyncCount==0){
-            vsyncToggle.isOn=true;
+        if(vsyncToggle.isOn){
             QualitySettings.vSyncCount=1;
         }
         else{
-            vsyncToggle.isOn=false; 
             QualitySettings.vSyncCount=0;
         }
     }
@@ -62,5 +59,13 @@ public class SettingController : MonoBehaviour
     public void Return(){
         menu.SetActive(true);
         Setting.SetActive(false);
+    }
+    public void showfps(){
+        if(showfpsToggle.isOn){
+            fps.SetActive(true);
+        }
+        else{
+            fps.SetActive(false);
+        }
     }
 }

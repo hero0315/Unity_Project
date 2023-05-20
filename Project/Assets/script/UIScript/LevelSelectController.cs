@@ -6,9 +6,8 @@ public class LevelSelectController : MonoBehaviour
 {
     private int skillCount;
     [SerializeField] GameObject LevelSelect;
-    [SerializeField] GameObject Fireball;
-    [SerializeField] GameObject LightningBlast;
     [SerializeField]private SkillController SkillController;
+    private int FireBallUpgradeNum = 4,LightningBlastUpgradeNum = 2;
     public class skill{
         [SerializeField]
         public GameObject skillObject;
@@ -51,41 +50,41 @@ public class LevelSelectController : MonoBehaviour
             select.setskill(_skill);
             select.setSprite(_skill.GetskillSprite());
             switch (_skill.skillname){
-                case "Fireball":
-                    select.SelectRandom = Random.Range(1,Fireball.GetComponent<FireBall>().getUpgradeNum()+1);
+                case "FireBall":
+                    select.SelectRandom = Random.Range(1,FireBallUpgradeNum+1);
                     while(selectthisround.Contains(select.SelectRandom)){
-                        select.SelectRandom = Random.Range(1,Fireball.GetComponent<FireBall>().getUpgradeNum()+1);
+                        select.SelectRandom = Random.Range(1,FireBallUpgradeNum+1);
                     }
                     selectthisround.Add(select.SelectRandom);
                     Addselectrecord(select.SelectRandom);
                     switch (select.SelectRandom){
                         case 1:
-                            select.SkillDescript.text=Fireball.GetComponent<FireBall>().Upgrade1Descript();
+                            select.SkillDescript.text="FireBall Damage + 20";
                             break;
                         case 2:
-                            select.SkillDescript.text=Fireball.GetComponent<FireBall>().Upgrade2Descript();
+                            select.SkillDescript.text="FireBall Pierce +1 Enemy";
                             break;
                         case 3:
-                            select.SkillDescript.text=Fireball.GetComponent<FireBall>().Upgrade3Descript();
+                            select.SkillDescript.text="FireBall Fire +2 Project";
                             break;
                         case 4:
-                            select.SkillDescript.text=Fireball.GetComponent<FireBall>().Upgrade4Descript();
+                            select.SkillDescript.text="FireBall Chain +2 Enemy";
                             break;
                     }
                     break;
                 case"LightningBlast":
-                select.SelectRandom = Random.Range(1,LightningBlast.GetComponent<LightningBlast>().getUpgradeNum()+1);
+                    select.SelectRandom = Random.Range(11,LightningBlastUpgradeNum+11);
                     while(selectthisround.Contains(select.SelectRandom)){
-                        select.SelectRandom = Random.Range(1,LightningBlast.GetComponent<LightningBlast>().getUpgradeNum()+1);
+                        select.SelectRandom = Random.Range(11,LightningBlastUpgradeNum+11);
                     }
                     selectthisround.Add(select.SelectRandom);
                     Addselectrecord(select.SelectRandom);
                     switch (select.SelectRandom){
-                        case 1:
-                            select.SkillDescript.text=LightningBlast.GetComponent<LightningBlast>().Upgrade1Descript();
+                        case 11:
+                            select.SkillDescript.text="Lightning Blast Damage + 20";
                             break;
-                        case 2:
-                            select.SkillDescript.text=LightningBlast.GetComponent<LightningBlast>().Upgrade2Descript();
+                        case 12:
+                            select.SkillDescript.text="Lightning Blast Hit to +1 Enemy";
                             break;
                     }
                     break;
@@ -109,29 +108,29 @@ public class LevelSelectController : MonoBehaviour
     }
     void selectUpgrade(string name,int selectRandom){
         switch (name){
-                case "Fireball":
+                case "FireBall":
                     switch (selectRandom){
                         case 1:
-                            Fireball.GetComponent<FireBall>().Upgrade1();
+                            playerState.playerFireballdamage+=20;
                             break;
                         case 2:
-                            Fireball.GetComponent<FireBall>().Upgrade2();
+                            playerState.playerFireballpirece+=1;
                             break;
                         case 3:
-                            Fireball.GetComponent<FireBall>().Upgrade3();
+                            playerState.playerFireballFireNum+=2;
                             break;
                         case 4:
-                            Fireball.GetComponent<FireBall>().Upgrade4();
+                            playerState.playerFireballchainNum+=2;
                             break;
                     }
                     break;
                 case"LightningBlast":
                 switch (selectRandom){
-                    case 1:
-                        LightningBlast.GetComponent<LightningBlast>().Upgrade1();
+                    case 11:
+                        playerState.playerLightningBlastdamage+=15;
                         break;
-                    case 2:
-                        LightningBlast.GetComponent<LightningBlast>().Upgrade2();
+                    case 12:
+                        playerState.playerLightningBlastchainNum+=1;
                         break;
                     }
                     break;
@@ -171,6 +170,12 @@ public class LevelSelectController : MonoBehaviour
                     break;
                 case 4:
                     selectRecord[4]+=1;
+                    break;
+                case 11:
+                    selectRecord[11]+=1;
+                    break;
+                case 12:
+                    selectRecord[12]+=1;
                     break;
             }
         }

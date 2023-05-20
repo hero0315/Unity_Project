@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UITextController : MonoBehaviour
 {
     private float currentExp;
     private float currentHealth;
     private float maxHealth;
-    [SerializeField]private Text expText;
+    [SerializeField]private TextMeshProUGUI expText;
     [SerializeField]private Slider expSlider;
-    [SerializeField]private Text lifeText;
+    [SerializeField]private TextMeshProUGUI lifeText;
     [SerializeField]private Slider lifeSlider;
     [SerializeField]private GameObject LevelSelect;
     private int[]level_need_exp;
-    [SerializeField]private LevelSelectController levelSelectController;
     void Start(){    
         PlayerData data = SaveSystem.LoadPlayerdata();
         playerState.level=data.level;
@@ -52,7 +50,7 @@ public class UITextController : MonoBehaviour
         expSlider.value=playerState.exp;
         expSlider.maxValue=level_need_exp[playerState.level-1];
         LevelSelect.SetActive(true);
-        levelSelectController.setSelectsActive();
+        LevelSelect.GetComponent<LevelSelectController>().setSelectsActive();
         Time.timeScale = 0;
     }
     private void gotexp(){

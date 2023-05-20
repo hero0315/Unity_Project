@@ -175,11 +175,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpgradeNum: 2
-  lastchainNum: 0
   basedamage: 20
   damageText: {fileID: 8076126600974250644, guid: 98a80f174d4ccb143806cf916c363c7b,
     type: 3}
   chainpoint: {fileID: 4217279950078240389}
+  ischained: 0
 --- !u!58 &8514706095934412239
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -195,4 +195,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 2, y: 0}
   serializedVersion: 2
-  m_Radius: 4
+  m_Radius: 4.5

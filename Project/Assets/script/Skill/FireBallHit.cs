@@ -11,6 +11,7 @@ public class FireBallHit : MonoBehaviour , Attack
     int lastchainNum;
     [SerializeField]GameObject attackobject;
     Vector3 chainposition;
+    GameObject hitlist;
     void Start()
     {
         lastpierceNum=playerState.playerFireballpirece;
@@ -18,18 +19,25 @@ public class FireBallHit : MonoBehaviour , Attack
     }
     void OnTriggerEnter2D(Collider2D collider){
         if(collider.gameObject.tag=="enemy"){
-            collider.gameObject.GetComponent<enemyController>().decreasehealth(playerState.playerFireballdamage+basedamage);
-            GameObject _anim=Instantiate(anim,this.transform.position, Quaternion.identity);
-            TextMeshPro createText = Instantiate(damageText,new Vector3(collider.transform.position.x,collider.transform.position.y+0.6f,collider.transform.position.z),Quaternion.identity);
-            createText.text=""+(playerState.playerFireballdamage+basedamage);
-            Destroy(_anim,animDestroySecond);
+            if(hitlist==collider.gameObject){
+                hitlist=null;
+            }
+            else{
+                collider.gameObject.GetComponent<enemyController>().decreasehealth(playerState.playerFireballdamage+basedamage);
+                GameObject _anim=Instantiate(anim,this.transform.position, Quaternion.identity);
+                TextMeshPro createText = Instantiate(damageText,new Vector3(collider.transform.position.x,collider.transform.position.y+0.6f,collider.transform.position.z),Quaternion.identity);
+                createText.text=""+(playerState.playerFireballdamage+basedamage);
+                Destroy(_anim,animDestroySecond);
+            }
             if(lastpierceNum<=0){
                 if(lastchainNum<=0){
                     Destroy(attackobject);
                 }
                 else{
-                    chainposition=attackobject.GetComponent<FireBall>().getClosest(collider.gameObject);
+                    chainposition=attackobject.GetComponent<FireBall>().getClosest(collider.gameObject.transform.position);
+                    hitlist=null;
                     if(chainposition!=Vector3.zero){
+                        hitlist=collider.gameObject;
                         Rigidbody2D rb = attackobject.GetComponent<Rigidbody2D>();
                         rb.velocity=Vector3.zero;
                         attackobject.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(chainposition.y-attackobject.transform.position.y,chainposition.x-attackobject.transform.position.x)* Mathf.Rad2Deg);
