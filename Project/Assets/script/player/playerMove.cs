@@ -15,7 +15,6 @@ public class playerMove : MonoBehaviour
 
     void Update()
     {
-        
         if (Input.GetMouseButton(0)&&!EventSystem.current.IsPointerOverGameObject()&&playerState.canplayermove)
         {
             MouseFollow();

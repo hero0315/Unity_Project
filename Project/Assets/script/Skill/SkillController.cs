@@ -126,9 +126,9 @@ public class SkillController : MonoBehaviour
         else if(skill.skillname=="LightningBlast"){
             mousepos.z=0;
             GameObject Closest=nearbyDetect.GetComponent<playerNearBy>().getClosest(mousepos);
-            if(Vector3.Distance(mousepos,firepoint.transform.position)>4.31f*lightningblastState.LightningBlastAttaackRange){
+            if(Vector3.Distance(mousepos,firepoint.transform.position)>3.5f*lightningblastState.LightningBlastAttaackRange){
                 nearbyDetect.GetComponent<CircleCollider2D>().radius=1.4f*lightningblastState.LightningBlastAttaackRange;
-                notInRange.transform.localScale=new Vector3(0.175f*lightningblastState.LightningBlastAttaackRange,0.172f*lightningblastState.LightningBlastAttaackRange,1f);
+                notInRange.transform.localScale=new Vector3(0.175f*lightningblastState.LightningBlastAttaackRange,0.215f*lightningblastState.LightningBlastAttaackRange,1f);
                 notInRange.SetActive(true);
                 Invoke("setnotInRange",0.4f);
             }
