@@ -6,11 +6,9 @@ public class playerController : MonoBehaviour
     [SerializeField]private float maxHealth;
     [SerializeField]private float originmovespeed;
     [SerializeField]private float origincastspeed;
-    [SerializeField]private float originfiredamage;
     void Awake(){
         setmovespeed(originmovespeed);
         setcastspeed(origincastspeed);
-        setFireballdamage(originfiredamage);
     }
     
     public float setmovespeed(float movespeed){
@@ -26,11 +24,6 @@ public class playerController : MonoBehaviour
     public float sethealth(float health){
         float temp=playerState.playerHealth;
         playerState.playerHealth=health;
-        return temp;
-    }
-    public float setFireballdamage(float firedamage){
-        float temp=playerState.playerFireballdamage;
-        playerState.playerFireballdamage=firedamage;
         return temp;
     }
     void Update(){

@@ -5,15 +5,21 @@ public class LightningBlast : MonoBehaviour , Attack
 {
     private List<GameObject> detect = new List<GameObject>();
     GameObject closest;
-    private int lastchainNum;
     [SerializeField]private float basedamage;
     [SerializeField]private TextMeshPro damageText;
     [SerializeField]Transform chainpoint;
     private GameObject target;
     [SerializeField]int ischained=0;
     private float distance=100; 
+    List<GameObject> hitlist=new List<GameObject>();
     void Start()
     {
+        if(transform.localScale.x>=0.25){
+            GetComponent<CircleCollider2D>().radius=(lightningblastState.LightningBlastRange*lightningblastState.LightningBlastIncreaseRange)/(transform.localScale.x/0.25f);
+        }
+        else{
+            GetComponent<CircleCollider2D>().radius=(lightningblastState.LightningBlastRange*lightningblastState.LightningBlastIncreaseRange)*(transform.localScale.x/0.25f);
+        }
         Invoke("Destroy",0.3f); 
         Invoke("Hitenemy",0.04f); 
     }
@@ -26,10 +32,10 @@ public class LightningBlast : MonoBehaviour , Attack
         closest=null;
         foreach (GameObject monster in detect){
             float temp=Vector3.Distance(monster.transform.position, chainpos);
-            if(temp<=0.3){
+            if(temp<=0.3||hitlist.Contains(monster)){
                 continue;
             }
-            else if(Vector3.Distance(monster.transform.position, chainpos)<=distance&&!monster.TryGetComponent<Markchained>(out Markchained hinge)){
+            else if(Vector3.Distance(monster.transform.position, chainpos)<=distance){
                 closest=monster;
                 distance=Vector3.Distance(monster.transform.position, chainpos);
             }
@@ -37,26 +43,26 @@ public class LightningBlast : MonoBehaviour , Attack
     }
     private void Hitenemy(){
         if(target!=null){
-            target.GetComponent<enemyController>().decreasehealth(playerState.playerLightningBlastdamage+basedamage);
+            hitlist.Add(target);
+            target.GetComponent<enemyController>().decreasehealth(lightningblastState.LightningBlastdamage+basedamage);
             TextMeshPro createText = Instantiate(damageText,new Vector3(target.transform.position.x,target.transform.position.y+0.6f,target.transform.position.z),Quaternion.identity);
-            createText.text=""+(playerState.playerLightningBlastdamage+basedamage);
-            if(ischained<playerState.playerLightningBlastchainNum){
+            createText.text=""+(lightningblastState.LightningBlastdamage+basedamage);
+            if(ischained<lightningblastState.LightningBlastchainNum){
                 getClosest(chainpoint.transform.position);
                 if(closest!=null){
                     target.AddComponent<Markchained>();
                     Vector3 dir= closest.transform.position-chainpoint.position;
                     GameObject createAttack= Instantiate(this.gameObject,(closest.transform.position-chainpoint.position)/2+chainpoint.position,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg));
-                    createAttack.GetComponent<LightningBlast>().initialization(distance,closest,ischained);           
-                    Invoke("removechainmark",0.1f);
+                    createAttack.GetComponent<LightningBlast>().initialization(distance,closest,ischained,hitlist);           
                 }
             }
         }     
     }
-    public void initialization(float _distance,GameObject _closest,int _ischained){
+    public void initialization(float _distance,GameObject _closest,int _ischained,List<GameObject> _hitlist){
         transform.localScale=new Vector3(_distance*2/10,0.25f,0.25f);
-        this.GetComponent<CircleCollider2D>().radius=4.5f;
         setTarget(_closest);
         setischainNum(_ischained);
+        hitlist=_hitlist;
     }
     public void setTarget(GameObject setobject){
         target=setobject;
@@ -67,10 +73,5 @@ public class LightningBlast : MonoBehaviour , Attack
     void Destroy()
     {
         Destroy(gameObject);
-    }
-void removechainmark(){
-        if(target.TryGetComponent<Markchained>(out Markchained hinge)){
-            target.GetComponent<Markchained>().removemark();
-        }
     }
 }

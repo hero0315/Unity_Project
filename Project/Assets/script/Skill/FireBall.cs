@@ -20,12 +20,12 @@ public class FireBall : MonoBehaviour , Attack
             detect.Remove(collider.gameObject);
         }
     }
-    public Vector3 getClosest(Vector3 chainpos){
+    public Vector3 getClosest(Vector3 chainpos,List<GameObject> hitlist){
         float distance=100; 
         closest=null;
         foreach (GameObject monster in detect){
             float temp=Vector3.Distance(monster.transform.position, chainpos);
-            if(temp<0.3){
+            if(temp<0.3||hitlist.Contains(monster)){
                 continue;
             }
             else if(temp<distance){

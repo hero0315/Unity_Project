@@ -7,6 +7,8 @@ public class DragIcon : MonoBehaviour,IBeginDragHandler,IEndDragHandler,IDragHan
     [SerializeField]private Canvas canvas;
     [SerializeField]private CanvasGroup canvasGroup;
     [SerializeField]List<CanvasGroup> othercanvasGroup = new List<CanvasGroup>();
+    [SerializeField]private Transform father;
+    private int temp;
     Vector3 originpos;
     void Start(){
         rectTransform=GetComponent<RectTransform>();
@@ -14,6 +16,8 @@ public class DragIcon : MonoBehaviour,IBeginDragHandler,IEndDragHandler,IDragHan
         originpos=rectTransform.anchoredPosition;
     }
     public void OnBeginDrag(PointerEventData eventData){
+        temp=father.GetSiblingIndex();
+        father.SetAsLastSibling();
         playerState.canplayermove=false;
         canvasGroup.alpha=.6f;
         canvasGroup.blocksRaycasts=false;
@@ -25,6 +29,7 @@ public class DragIcon : MonoBehaviour,IBeginDragHandler,IEndDragHandler,IDragHan
         rectTransform.anchoredPosition+=eventData.delta/canvas.scaleFactor;
     }
     public void OnEndDrag(PointerEventData eventData){
+        father.SetSiblingIndex(temp);
         playerState.canplayermove=true;
         canvasGroup.alpha=1f;
         canvasGroup.blocksRaycasts=true;
