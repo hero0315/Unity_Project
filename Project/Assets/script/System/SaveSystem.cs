@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class SaveSystem : MonoBehaviour
 { 
-    void Start(){
+    void Awake(){
         if(!File.Exists(Application.persistentDataPath+"/player.txt")){
             string path = Application.persistentDataPath+"/player.txt";
             PlayerData data=new PlayerData();
@@ -12,6 +12,8 @@ public class SaveSystem : MonoBehaviour
             FileStream stream = new FileStream(path,FileMode.Create);
             formatter.Serialize(stream,data);
             stream.Close();
+            playerState.level=1;
+            playerState.exp=0;
         }
     }
     public static void SavePlayerdata(){

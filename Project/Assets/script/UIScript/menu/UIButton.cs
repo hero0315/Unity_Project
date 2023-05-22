@@ -8,11 +8,13 @@ public class UIButton : MonoBehaviour
     private bool ismenuopen=false;
     void Update(){
         if(Input.GetKeyDown("escape")){
-            if(ismenuopen){
+            if(playerState.canEsc){
+                if(ismenuopen){
                 returngame();
             }
             else{
                 openmenu();
+            }
             }
         }
     }
@@ -38,6 +40,14 @@ public class UIButton : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene("MainMenu");
+    }
+    public void restartgame(){
+        this.gameObject.SetActive(false);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("fightingScenes");
+        playerState.restartAll();
+        SaveSystem.SavePlayerdata();
     }
     
 }
