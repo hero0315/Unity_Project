@@ -50,7 +50,6 @@ public class LightningBlast : MonoBehaviour , Attack
             if(ischained<lightningblastState.LightningBlastchainNum){
                 getClosest(chainpoint.transform.position);
                 if(closest!=null){
-                    target.AddComponent<Markchained>();
                     Vector3 dir= closest.transform.position-chainpoint.position;
                     GameObject createAttack= Instantiate(this.gameObject,(closest.transform.position-chainpoint.position)/2+chainpoint.position,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg));
                     createAttack.GetComponent<LightningBlast>().initialization(distance,closest,ischained,hitlist);           

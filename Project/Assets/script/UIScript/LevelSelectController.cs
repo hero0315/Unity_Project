@@ -6,9 +6,11 @@ using TMPro;
 public class LevelSelectController : MonoBehaviour
 {
     [SerializeField] GameObject LevelSelect;
+    [SerializeField] GameObject spinWeapon;
     [SerializeField] Sprite fireballSprite;
     [SerializeField] Sprite lightningblastSprite;
-    private int FireBallUpgradeNum = 4,LightningBlastUpgradeNum = 4;
+    [SerializeField] Sprite MageicWeaponSprite;
+    private int UpgradeNum = 10;
     [System.Serializable]
     public class Select{
         [SerializeField]private GameObject SelectSkill;
@@ -25,9 +27,9 @@ public class LevelSelectController : MonoBehaviour
     public void setSelectsActive(){
         List<int> selectthisround=new List<int>();
         foreach(Select select in Selects){
-            select.SelectRandom = Random.Range(1,LightningBlastUpgradeNum+FireBallUpgradeNum+1);
+            select.SelectRandom = Random.Range(1,UpgradeNum+1);
             while(selectthisround.Contains(select.SelectRandom)){
-                select.SelectRandom = Random.Range(1,LightningBlastUpgradeNum+FireBallUpgradeNum+1);
+                select.SelectRandom = Random.Range(1,UpgradeNum+1);
             }
             selectthisround.Add(select.SelectRandom);
             Addselectrecord(select.SelectRandom);
@@ -63,6 +65,14 @@ public class LevelSelectController : MonoBehaviour
                     case 8:
                         select.setSprite(lightningblastSprite);
                         select.SkillDescript.text="Lightning Blast +10% Attack Range";
+                        break;
+                    case 9:
+                        select.setSprite(MageicWeaponSprite);
+                        select.SkillDescript.text="Mageic Weapon Damage +10";
+                        break;
+                    case 10:
+                        select.setSprite(MageicWeaponSprite);
+                        select.SkillDescript.text="Mageic Weapon +2 Weapon";
                         break;
                 }
         }
@@ -108,6 +118,12 @@ public class LevelSelectController : MonoBehaviour
                 case 8:
                     lightningblastState.LightningBlastAttaackRange+=0.1f;
                     break;
+                case 9:
+                    magicweaponState.MagicWeaponDamage+=10f;
+                break;
+                    case 10:
+                    spinWeapon.GetComponent<SpinWeapon>().addWeapon();
+                    break;
 
             }
     }
@@ -140,6 +156,12 @@ public class LevelSelectController : MonoBehaviour
                     break;
                 case 8:
                     selectRecord[8]+=1;
+                    break;
+                case 9:
+                    selectRecord[9]+=1;
+                    break;
+                case 10:
+                    selectRecord[10]+=1;
                     break;
             }
         }

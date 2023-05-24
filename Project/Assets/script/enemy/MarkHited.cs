@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MarkHited : MonoBehaviour
 {
-    public void removemark(){
-        Destroy(this);
+    void Start(){
+        Destroy(this,0.3f);
     }
 }

@@ -13,14 +13,14 @@ GameObject:
   - component: {fileID: 3893364518337197953}
   - component: {fileID: 6591417656349361939}
   - component: {fileID: 8945807195060810463}
-  - component: {fileID: -3093958104776470678}
+  - component: {fileID: 3692428315211811319}
   m_Layer: 0
   m_Name: weapon-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2103288680310938858
 Transform:
   m_ObjectHideFlags: 0
@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4287128286224586638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.431729, y: -2.7401624, z: 2.0239935}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -156,7 +156,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5314026, y: 0.84836954}
   m_EdgeRadius: 0
---- !u!114 &-3093958104776470678
+--- !u!114 &3692428315211811319
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,7 +165,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4287128286224586638}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: deff641968e706d4db5e7bb93b21a708, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ea5a95721bbc0946aac27c1ed97d94b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpinWeapons: []
+  basedamage: 10
+  damageText: {fileID: 8076126600974250644, guid: 98a80f174d4ccb143806cf916c363c7b,
+    type: 3}

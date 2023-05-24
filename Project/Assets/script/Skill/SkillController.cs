@@ -6,6 +6,7 @@ public class SkillController : MonoBehaviour
 {
     private Vector3 dir;
     [SerializeField]private GameObject firepoint;
+    [SerializeField]private GameObject SpinWeapon;
     [SerializeField]private GameObject nearbyDetect;
     [SerializeField]private GameObject notInRange;
     private Vector3 mousepos;
@@ -38,6 +39,9 @@ public class SkillController : MonoBehaviour
             }
             else if(skill.skillname=="LightningBlast"){
                 skill.spellcastspeed=lightningblastState.LightningBlastcastspeed*playerState.playerCastspeed;
+            }
+            else if(skill.skillname=="MagicWeapon"){
+                skill.spellcastspeed=magicweaponState.MagicWeaponDuration;
             }
         }
     }
@@ -148,6 +152,9 @@ public class SkillController : MonoBehaviour
                 attackObject.transform.localScale=new Vector3(distance*2f/10f,0.25f,0.25f);
                 attackObject.GetComponent<LightningBlast>().setTarget(Closest);
             }
+        }
+        else if(skill.skillname=="MagicWeapon"&&SpinWeapon.GetComponent<SpinWeapon>().isusing==false){
+            SpinWeapon.GetComponent<SpinWeapon>().usemagicweapon(magicweaponState.MagicWeaponDuration);
         }
     }
     public void swapskill(int i,int j){
