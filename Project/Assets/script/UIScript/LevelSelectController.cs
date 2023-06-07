@@ -28,11 +28,14 @@ public class LevelSelectController : MonoBehaviour
         List<int> selectthisround=new List<int>();
         foreach(Select select in Selects){
             select.SelectRandom = Random.Range(1,UpgradeNum+1);
-            while(selectthisround.Contains(select.SelectRandom)){
+            while(true){
+                if(isUpgradeEnable(select.SelectRandom)&&!selectthisround.Contains(select.SelectRandom)){
+                    break;
+                }
+                Debug.Log(select.SelectRandom);
                 select.SelectRandom = Random.Range(1,UpgradeNum+1);
             }
             selectthisround.Add(select.SelectRandom);
-            Addselectrecord(select.SelectRandom);
                 switch (select.SelectRandom){
                     case 1:
                         select.setSprite(fireballSprite);
@@ -78,21 +81,24 @@ public class LevelSelectController : MonoBehaviour
         }
     }
     public void LevelSelect1(){
-        selectUpgrade(Selects[0].SelectRandom);
+        UpgradeSkill(Selects[0].SelectRandom);
+        Addselectrecord(Selects[0].SelectRandom);
         Time.timeScale = 1;
         LevelSelect.SetActive(false);
     }
     public void LevelSelect2(){
-        selectUpgrade(Selects[1].SelectRandom);
+        UpgradeSkill(Selects[1].SelectRandom);
+        Addselectrecord(Selects[1].SelectRandom);
         Time.timeScale = 1;
         LevelSelect.SetActive(false);
     }
     public void LevelSelect3(){
-        selectUpgrade(Selects[2].SelectRandom);
+        UpgradeSkill(Selects[2].SelectRandom);
+        Addselectrecord(Selects[2].SelectRandom);
         Time.timeScale = 1;
         LevelSelect.SetActive(false);
     }
-    void selectUpgrade(int selectRandom){
+    void UpgradeSkill(int selectRandom){
             switch (selectRandom){
                 case 1:
                     fireballState.Fireballdamage+=20;
@@ -120,8 +126,8 @@ public class LevelSelectController : MonoBehaviour
                     break;
                 case 9:
                     magicweaponState.MagicWeaponDamage+=10f;
-                break;
-                    case 10:
+                    break;
+                case 10:
                     spinWeapon.GetComponent<SpinWeapon>().addWeapon();
                     break;
 
@@ -132,38 +138,48 @@ public class LevelSelectController : MonoBehaviour
             selectRecord.Add(serialNumber,1);
         }
         else{
-            switch (serialNumber){
-                case 1:
-                    selectRecord[1]+=1;
-                    break;
-                case 2:
-                    selectRecord[2]+=1;
-                    break;
-                case 3:
-                    selectRecord[3]+=1;
-                    break;
-                case 4:
-                    selectRecord[4]+=1;
-                    break;
-                case 5:
-                    selectRecord[5]+=1;
-                    break;
-                case 6:
-                    selectRecord[6]+=1;
-                    break;
-                case 7:
-                    selectRecord[7]+=1;
-                    break;
-                case 8:
-                    selectRecord[8]+=1;
-                    break;
-                case 9:
-                    selectRecord[9]+=1;
-                    break;
-                case 10:
-                    selectRecord[10]+=1;
-                    break;
-            }
+            selectRecord[serialNumber]+=1;
+        }
+    }
+    bool isUpgradeEnable(int serialNumber){
+        switch (serialNumber){
+            case 1:
+                return true;
+            case 2:
+                return true;
+            case 3:
+                return true;
+            case 4:
+                return true;
+            case 5:
+                return true;
+            case 6:
+                return true;
+            case 7:
+                return true;
+            case 8:
+                return true;
+            case 9:
+                if(!selectRecord.ContainsKey(10)){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            case 10:
+                if(selectRecord.ContainsKey(10)){
+                    if(selectRecord[10]>=3){
+                        return false;
+                    }
+                    else{
+                        return true;
+                    }
+                }
+                else{
+                    return true;
+                }
+            default:
+                return false;
         }
     }
 }

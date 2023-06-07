@@ -9,6 +9,8 @@ public class SkillController : MonoBehaviour
     [SerializeField]private GameObject SpinWeapon;
     [SerializeField]private GameObject nearbyDetect;
     [SerializeField]private GameObject notInRange;
+    [SerializeField]private GameObject fireball;
+    [SerializeField]private GameObject lightningblast;
     private Vector3 mousepos;
     [SerializeField]private Camera cam;
     [SerializeField]private Image skillImage_Q;
@@ -16,6 +18,9 @@ public class SkillController : MonoBehaviour
     [SerializeField]private Image skillImage_W;
     [SerializeField]private Image skillImage_E;
     [SerializeField]private Image skillImage_R;
+    [SerializeField]private Sprite magicweaponSprite;
+    [SerializeField]private Sprite fireballSprite;
+    [SerializeField]private Sprite lightningblastSprite;
     [System.Serializable]
     public class skillpool{
         public GameObject skill;
@@ -24,6 +29,14 @@ public class SkillController : MonoBehaviour
         public float spellcastspeed;
         [System.NonSerialized]
         public bool iscooldowning=false;
+        public void setskill(GameObject _skill,string _skillname,float _spellcastspeed){
+            this.skill=_skill;
+            this.spellcastspeed=_spellcastspeed;
+            this.skillname=_skillname;
+        }
+        public void setcastspeed(){
+            this.spellcastspeed=fireballState.Fireballcastspeed*playerState.playerCastspeed;
+        }
     }
     [SerializeField]public List<skillpool> skillpools;
     public int GetSkillCount(){
@@ -161,5 +174,67 @@ public class SkillController : MonoBehaviour
         skillpool temp = skillpools[i];
         skillpools[i]=skillpools[j];
         skillpools[j]=temp;
+    }
+    public void setFireBall(){
+        int num=0;
+        foreach(skillpool _skillpool in skillpools){
+            if(_skillpool.skillname==""){
+                num=skillpools.BinarySearch(_skillpool);
+                break;
+            }
+        }
+        skillpools[num].setskill(fireball,"FireBall",fireballState.Fireballcastspeed*playerState.playerCastspeed);
+        setbutton(num,fireballSprite);
+    }
+    public void setLightningBlast(){
+        int num=0;
+        foreach(skillpool _skillpool in skillpools){
+            if(_skillpool.skillname==""){
+                num=skillpools.BinarySearch(_skillpool);
+                break;
+            }
+        }
+        skillpools[num].setskill(lightningblast,"LightningBlast",lightningblastState.LightningBlastcastspeed*playerState.playerCastspeed);
+        setbutton(num,lightningblastSprite);
+    }
+    public void setMagicWeapon(){
+        int num=0;
+        foreach(skillpool _skillpool in skillpools){
+            if(_skillpool.skillname == ("")){
+                num=skillpools.BinarySearch(_skillpool);
+                break;
+            }
+        }
+        skillpools[num].setskill(null,"MagicWeapon",magicweaponState.MagicWeaponDuration);
+        setbutton(num,magicweaponSprite);
+    }
+    private void setbutton(int num,Sprite sprite){
+        switch(num){
+            case 0:
+                skillImage_M1.sprite=sprite;
+                skillImage_M1.color= new Color(255f,255f,255f,255f);
+                skillImage_M1.GetComponent<CanvasGroup>().interactable=true;
+                break;
+            case 1:
+                skillImage_Q.sprite=sprite;
+                skillImage_Q.color= new Color(255f,255f,255f,255f);
+                skillImage_Q.GetComponent<CanvasGroup>().interactable=true;
+                break;
+            case 2:
+                skillImage_W.sprite=sprite;
+                skillImage_W.color= new Color(255f,255f,255f,255f);
+                skillImage_W.GetComponent<CanvasGroup>().interactable=true;
+                break;
+            case 3:
+                skillImage_E.sprite=sprite;
+                skillImage_E.color= new Color(255f,255f,255f,255f);
+                skillImage_E.GetComponent<CanvasGroup>().interactable=true;
+                break;
+            case 4:
+                skillImage_R.sprite=sprite;
+                skillImage_R.color= new Color(255f,255f,255f,255f);
+                skillImage_R.GetComponent<CanvasGroup>().interactable=true;
+                break;
+        }
     }
 }

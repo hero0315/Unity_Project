@@ -5,6 +5,7 @@ public class SpinWeapon : MonoBehaviour
 {
     [SerializeField]List<GameObject> SpinWeapons = new List<GameObject>();
     [SerializeField]List<GameObject> Weaponlsit = new List<GameObject>();
+    [SerializeField]SkillController skillcontroller;
     List<GameObject> createWeapon = new List<GameObject>();
     float xpos=0f;
     float ypos=2.5f;
@@ -17,6 +18,9 @@ public class SpinWeapon : MonoBehaviour
     }
     
     public void addWeapon(){  
+        if(SpinWeapons.Count==0){
+            skillcontroller.setMagicWeapon();
+        }
         SpinWeapons.Add(Weaponlsit[Random.Range(0,Weaponlsit.Count)]);
         SpinWeapons.Add(Weaponlsit[Random.Range(0,Weaponlsit.Count)]);
         foreach(GameObject _weapon in createWeapon){

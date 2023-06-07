@@ -1264,19 +1264,27 @@ MonoBehaviour:
   SpinWeapon: {fileID: 914150790}
   nearbyDetect: {fileID: 163765003}
   notInRange: {fileID: 204312300}
+  fireball: {fileID: 4492382269066828483, guid: 2eb04323989d1a3499faabab9210c3b6,
+    type: 3}
+  lightningblast: {fileID: 5772959071763913684, guid: 49be70cb6bee014469d2fece6b72133b,
+    type: 3}
   cam: {fileID: 519420031}
   skillImage_Q: {fileID: 1670379860}
   skillImage_M1: {fileID: 1747284141}
   skillImage_W: {fileID: 447337043}
   skillImage_E: {fileID: 1042178752}
   skillImage_R: {fileID: 215650694}
+  magicweaponSprite: {fileID: 21300000, guid: 292a339b019ab674f847df88d3441c47, type: 3}
+  fireballSprite: {fileID: 21300000, guid: 84b186ccfaa1d4740b9a64fb874d6d60, type: 3}
+  lightningblastSprite: {fileID: 21300000, guid: 6eb53c8f7b1cda349ac902ba287377f6,
+    type: 3}
   skillpools:
   - skill: {fileID: 4492382269066828483, guid: 2eb04323989d1a3499faabab9210c3b6, type: 3}
     skillname: FireBall
   - skill: {fileID: 5772959071763913684, guid: 49be70cb6bee014469d2fece6b72133b, type: 3}
     skillname: LightningBlast
   - skill: {fileID: 0}
-    skillname: MagicWeapon
+    skillname: 
   - skill: {fileID: 0}
     skillname: 
   - skill: {fileID: 0}
@@ -2180,8 +2188,8 @@ CanvasGroup:
   m_GameObject: {fileID: 447337040}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &447337042
 MonoBehaviour:
@@ -2216,14 +2224,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 292a339b019ab674f847df88d3441c47, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5181,6 +5189,7 @@ MonoBehaviour:
   - {fileID: 2881933061720082622, guid: 5d196d5b0c1c64f40963e9c06444e13f, type: 3}
   - {fileID: 7900220748450615432, guid: eaa2443be296ebf42af2e4bc122325a1, type: 3}
   - {fileID: 5737465842561347298, guid: b5ed3b7bfceaf2e4b91bf6526cd5d56d, type: 3}
+  skillcontroller: {fileID: 274438625}
   isusing: 0
   circlesize: 1
 --- !u!1 &928384724
