@@ -18,9 +18,6 @@ public class SpinWeapon : MonoBehaviour
     }
     
     public void addWeapon(){  
-        if(SpinWeapons.Count==0){
-            skillcontroller.setMagicWeapon();
-        }
         SpinWeapons.Add(Weaponlsit[Random.Range(0,Weaponlsit.Count)]);
         SpinWeapons.Add(Weaponlsit[Random.Range(0,Weaponlsit.Count)]);
         foreach(GameObject _weapon in createWeapon){

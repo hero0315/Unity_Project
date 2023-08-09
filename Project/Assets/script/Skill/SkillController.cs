@@ -177,33 +177,36 @@ public class SkillController : MonoBehaviour
     }
     public void setFireBall(){
         int num=0;
+        fireballState.FireEnable=true;
         foreach(skillpool _skillpool in skillpools){
             if(_skillpool.skillname==""){
-                num=skillpools.BinarySearch(_skillpool);
                 break;
             }
+            num+=1;
         }
         skillpools[num].setskill(fireball,"FireBall",fireballState.Fireballcastspeed*playerState.playerCastspeed);
         setbutton(num,fireballSprite);
     }
     public void setLightningBlast(){
         int num=0;
+        lightningblastState.LightningBlastEnable=true;
         foreach(skillpool _skillpool in skillpools){
             if(_skillpool.skillname==""){
-                num=skillpools.BinarySearch(_skillpool);
                 break;
             }
+            num+=1;
         }
         skillpools[num].setskill(lightningblast,"LightningBlast",lightningblastState.LightningBlastcastspeed*playerState.playerCastspeed);
         setbutton(num,lightningblastSprite);
     }
     public void setMagicWeapon(){
         int num=0;
+        magicweaponState.MagicWeaponEnable=true;
         foreach(skillpool _skillpool in skillpools){
             if(_skillpool.skillname == ("")){
-                num=skillpools.BinarySearch(_skillpool);
                 break;
             }
+            num+=1;
         }
         skillpools[num].setskill(null,"MagicWeapon",magicweaponState.MagicWeaponDuration);
         setbutton(num,magicweaponSprite);

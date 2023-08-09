@@ -125,8 +125,8 @@ MonoBehaviour:
   originhealth: 100
   damage: 10
   attackcooldown: 0.5
-  cooldown: 0
   killexp: 60
+  coin: {fileID: 1331071183866530724, guid: b82b280ca21b3524ebe6e2d41b173a8c, type: 3}
 --- !u!50 &1735750625
 Rigidbody2D:
   serializedVersion: 4

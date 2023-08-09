@@ -9,6 +9,7 @@ public class playerState
     public static bool canplayermove=true;
     public static bool isrestart=false;
     public static bool canEsc=true;
+    public static float coin=0;
     public static void restartplayer(){
         playerHealth=100f;
         playerCastspeed=1f;
@@ -19,19 +20,12 @@ public class playerState
         canplayermove=true;
         isrestart=true;
         canEsc=true;
+        coin=0;
     }
     public static void restartAll(){
-        fireballState.Fireballdamage=0;
-        fireballState.Fireballpirece=0;
-        fireballState.FireballFireNum=1;
-        fireballState.FireballchainNum=0;
-        fireballState.Fireballcastspeed=1f;
-        lightningblastState.LightningBlastdamage=0;
-        lightningblastState.LightningBlastchainNum=2;
-        lightningblastState.LightningBlastcastspeed=0.7f;
-        lightningblastState.LightningBlastRange=6f;
-        lightningblastState.LightningBlastIncreaseRange = 1f;
-        lightningblastState.LightningBlastAttaackRange = 1f;
+        fireballState.restart();
+        lightningblastState.restart();
+        magicweaponState.restart();
         restartplayer();
     }
 }

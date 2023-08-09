@@ -6,6 +6,7 @@ public class enemyController : MonoBehaviour
     [SerializeField]private float damage;
     [SerializeField]private float attackcooldown;
     [SerializeField]private float killexp=0;
+    [SerializeField]private GameObject coin;
     private float monsterhealth;
     private bool damageable=true;
     void Start(){
@@ -16,6 +17,7 @@ public class enemyController : MonoBehaviour
             if(damageable==true){
                 damageable=false;
                 playerState.playerHealth-=(damage*playerState.playerDefence);
+                UITextController.hpEvent.Invoke();
                 Invoke("setdamageable",attackcooldown);
             }
         }
@@ -25,7 +27,11 @@ public class enemyController : MonoBehaviour
         if(monsterhealth<=0){
             monsterhealth=originhealth;
             playerState.exp+=killexp;
+            UITextController.expEvent.Invoke();
+            GameObject _coin = Instantiate(coin);
+            _coin.transform.position=this.transform.position;
             gameObject.SetActive(false);
+            
         }
     }
     private void setdamageable(){

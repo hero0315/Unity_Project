@@ -6,11 +6,12 @@ using TMPro;
 public class LevelSelectController : MonoBehaviour
 {
     [SerializeField] GameObject LevelSelect;
+    [SerializeField] SkillController skillController;
     [SerializeField] GameObject spinWeapon;
     [SerializeField] Sprite fireballSprite;
     [SerializeField] Sprite lightningblastSprite;
     [SerializeField] Sprite MageicWeaponSprite;
-    private int UpgradeNum = 10;
+    List<string> selectpool=new List<string>();
     [System.Serializable]
     public class Select{
         [SerializeField]private GameObject SelectSkill;
@@ -23,62 +24,50 @@ public class LevelSelectController : MonoBehaviour
     }
     [SerializeField]
     List<Select> Selects = new List<Select>();
-    Dictionary<int, int> selectRecord=new Dictionary<int, int>();
+    Dictionary<string, int> selectRecord=new Dictionary<string, int>();
+    void Start(){
+        if(fireballState.FireEnable==false){
+            selectpool.Add("getFireBall");
+        }
+        else{
+            setFireBallUpgrade();
+        }
+        if(lightningblastState.LightningBlastEnable==false){
+            selectpool.Add("getLightningBlast");
+        }
+        else{
+            setLightningBlastUpgrade();
+        }
+        if(magicweaponState.MagicWeaponEnable==false){
+            selectpool.Add("getMagicWeapon");
+        }
+        else{
+            setMagicWeaponUpgrade();
+        }
+        this.gameObject.SetActive(false);
+    }
     public void setSelectsActive(){
         List<int> selectthisround=new List<int>();
+        int selectnum=0;
         foreach(Select select in Selects){
-            select.SelectRandom = Random.Range(1,UpgradeNum+1);
+            select.SelectRandom = Random.Range(0,selectpool.Count-1);
             while(true){
-                if(isUpgradeEnable(select.SelectRandom)&&!selectthisround.Contains(select.SelectRandom)){
-                    break;
+                if(!selectthisround.Contains(select.SelectRandom)){
+                    if(isUpgradeEnable(select.SelectRandom,selectnum)==true){ 
+                        break;
+                    }
                 }
-                Debug.Log(select.SelectRandom);
-                select.SelectRandom = Random.Range(1,UpgradeNum+1);
+                select.SelectRandom = Random.Range(1,selectpool.Count);
             }
             selectthisround.Add(select.SelectRandom);
-                switch (select.SelectRandom){
-                    case 1:
-                        select.setSprite(fireballSprite);
-                        select.SkillDescript.text="FireBall Damage + 20";
-                        break;
-                    case 2:
-                        select.setSprite(fireballSprite);
-                        select.SkillDescript.text="FireBall Pierce +1 Enemy";
-                        break;
-                    case 3:
-                        select.setSprite(fireballSprite);
-                        select.SkillDescript.text="FireBall Fire +2 Project";
-                        break;
-                    case 4:
-                        select.setSprite(fireballSprite);
-                        select.SkillDescript.text="FireBall Chain +1 Enemy";
-                        break;
-                    case 5:
-                        select.setSprite(lightningblastSprite);
-                        select.SkillDescript.text="Lightning Blast Damage + 15";
-                        break;
-                    case 6:
-                        select.setSprite(lightningblastSprite);
-                        select.SkillDescript.text="Lightning Blast Hit to +2 Enemy";
-                        break;
-                    case 7:
-                        select.setSprite(lightningblastSprite);
-                        select.SkillDescript.text="Lightning Blast +20% Range to Hit Enemy";
-                        break;
-                    case 8:
-                        select.setSprite(lightningblastSprite);
-                        select.SkillDescript.text="Lightning Blast +10% Attack Range";
-                        break;
-                    case 9:
-                        select.setSprite(MageicWeaponSprite);
-                        select.SkillDescript.text="Mageic Weapon Damage +10";
-                        break;
-                    case 10:
-                        select.setSprite(MageicWeaponSprite);
-                        select.SkillDescript.text="Mageic Weapon +2 Weapon";
-                        break;
-                }
+            
+            selectnum+=1;
         }
+        /*
+        foreach(int i in selectthisround){
+            Debug.Log(i);
+        }
+        */
     }
     public void LevelSelect1(){
         UpgradeSkill(Selects[0].SelectRandom);
@@ -99,79 +88,182 @@ public class LevelSelectController : MonoBehaviour
         LevelSelect.SetActive(false);
     }
     void UpgradeSkill(int selectRandom){
-            switch (selectRandom){
-                case 1:
+            switch (selectpool[selectRandom]){
+                case "getFireBall":
+                    setFireBallUpgrade();
+                    skillController.setFireBall();
+                    fireballState.FireEnable=true;
+                    break;
+                case "FireBallDamage":
                     fireballState.Fireballdamage+=20;
                     break;
-                case 2:
+                case "FireBallPirece":
                     fireballState.Fireballpirece+=1;
                     break;
-                case 3:
+                case "FireBallProject":
                     fireballState.FireballFireNum+=2;
                     break;
-                case 4:
+                case "FireBallChain":
                     fireballState.FireballchainNum+=1;
                     break;
-                case 5:
+                case "getLightningBlast":
+                    setLightningBlastUpgrade();
+                    skillController.setLightningBlast();
+                    lightningblastState.LightningBlastEnable=true;
+                    break;
+                case "LightningBlastDamage":
                     lightningblastState.LightningBlastdamage+=15;
                     break;
-                case 6:
+                case "LightningBlastHit":
                     lightningblastState.LightningBlastchainNum+=2;
                     break;
-                case 7:
+                case "LightningBlastHitRange":
                     lightningblastState.LightningBlastIncreaseRange+=0.2f;
                     break;
-                case 8:
+                case "LightningBlastAttackRange":
                     lightningblastState.LightningBlastAttaackRange+=0.1f;
                     break;
-                case 9:
+                case "getMagicWeapon":
+                    setMagicWeaponUpgrade();
+                    skillController.setMagicWeapon();
+                    spinWeapon.GetComponent<SpinWeapon>().addWeapon();
+                    magicweaponState.MagicWeaponEnable=true;
+                    break;
+                case "MagicWeaponDamage":
                     magicweaponState.MagicWeaponDamage+=10f;
                     break;
-                case 10:
+                case "MagicWeaponNum":
                     spinWeapon.GetComponent<SpinWeapon>().addWeapon();
                     break;
 
             }
     }
     void Addselectrecord(int serialNumber){
-        if(!selectRecord.ContainsKey(serialNumber)){
-            selectRecord.Add(serialNumber,1);
+        if(!selectRecord.ContainsKey(selectpool[serialNumber])){
+            selectRecord.Add(selectpool[serialNumber],1);
         }
         else{
-            selectRecord[serialNumber]+=1;
+            selectRecord[selectpool[serialNumber]]+=1;
         }
     }
-    bool isUpgradeEnable(int serialNumber){
-        switch (serialNumber){
-            case 1:
-                return true;
-            case 2:
-                return true;
-            case 3:
-                return true;
-            case 4:
-                return true;
-            case 5:
-                return true;
-            case 6:
-                return true;
-            case 7:
-                return true;
-            case 8:
-                return true;
-            case 9:
-                if(!selectRecord.ContainsKey(10)){
+    bool isUpgradeEnable(int UpgradeNum,int selectnum){
+        switch (selectpool[UpgradeNum]){
+            case "getFireBall":
+                if(fireballState.FireEnable==true){
                     return false;
                 }
                 else{
+                    Selects[selectnum].setSprite(fireballSprite);
+                    Selects[selectnum].SkillDescript.text="Get FireBall Skill";
                     return true;
                 }
-            case 10:
-                if(selectRecord.ContainsKey(10)){
-                    if(selectRecord[10]>=3){
+            case "FireBallDamage":
+                if(fireballState.FireEnable==true){
+                    Selects[selectnum].setSprite(fireballSprite);
+                    Selects[selectnum].SkillDescript.text="FireBall Damage + 20";
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            case "FireBallPierce":
+                if(fireballState.FireEnable==true){
+                    Selects[selectnum].setSprite(fireballSprite);
+                    Selects[selectnum].SkillDescript.text="FireBall Pierce +1 Enemy";
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            case "FireBallProject":
+                if(fireballState.FireEnable==true){
+                    Selects[selectnum].setSprite(fireballSprite);
+                    Selects[selectnum].SkillDescript.text="FireBall Fire +2 Project";
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            case "FireBallChain":
+                if(fireballState.FireEnable==true){
+                    Selects[selectnum].setSprite(fireballSprite);
+                    Selects[selectnum].SkillDescript.text="FireBall Chain +1 Enemy";
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            case "LightningBlastDamage":
+                if(lightningblastState.LightningBlastEnable==true){
+                    Selects[selectnum].setSprite(lightningblastSprite);
+                    Selects[selectnum].SkillDescript.text="Lightning Blast Damage + 15";
+                   return true; 
+                }
+                else{
+                    return false;
+                }
+            case "getLightningBlast":
+                if(lightningblastState.LightningBlastEnable==true){
+                   return false; 
+                }
+                else{
+                    Selects[selectnum].setSprite(lightningblastSprite);
+                    Selects[selectnum].SkillDescript.text="Get LightningBlast Skill";
+                    return true;
+                }
+            case "LightningBlastHit":
+                if(lightningblastState.LightningBlastEnable==true){
+                    Selects[selectnum].setSprite(lightningblastSprite);
+                    Selects[selectnum].SkillDescript.text="Lightning Blast Hit to +2 Enemy";
+                    return true; 
+                }
+                else{
+                    return false;
+                }
+            case "LightningBlastHitRange":
+                if(lightningblastState.LightningBlastEnable==true){
+                    Selects[selectnum].setSprite(lightningblastSprite);
+                    Selects[selectnum].SkillDescript.text="Lightning Blast +20% Range to Hit Enemy";
+                    return true; 
+                }
+                else{
+                    return false;
+                }
+            case "LightningBlastAttackRange":
+                if(lightningblastState.LightningBlastEnable==true){
+                    Selects[selectnum].setSprite(lightningblastSprite);
+                    Selects[selectnum].SkillDescript.text="Lightning Blast +10% Attack Range";
+                    return true; 
+                }
+                else{
+                    return false;
+                }
+            case "getMagicWeapon":
+                if(magicweaponState.MagicWeaponEnable==true){
+                   return false; 
+                }
+                else{
+                    Selects[selectnum].setSprite(MageicWeaponSprite);
+                    Selects[selectnum].SkillDescript.text="Get MagicWeapon Skill";
+                    return true;
+            }
+            case "MagicWeaponDamage":
+                if(magicweaponState.MagicWeaponEnable==true){
+                    Selects[selectnum].setSprite(MageicWeaponSprite);
+                    Selects[selectnum].SkillDescript.text="Mageic Weapon +10 Damage";
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            case "MagicWeaponNum":
+                if(selectRecord.ContainsKey("MagicWeaponNum")){
+                    if(selectRecord["MagicWeaponNum"]>=3||magicweaponState.MagicWeaponEnable==false){
                         return false;
                     }
                     else{
+                        Selects[selectnum].setSprite(MageicWeaponSprite);
+                        Selects[selectnum].SkillDescript.text="Mageic Weapon +2 Weapon";
                         return true;
                     }
                 }
@@ -181,5 +273,27 @@ public class LevelSelectController : MonoBehaviour
             default:
                 return false;
         }
+    }
+    void setFireBallUpgrade(){
+        selectpool.Add("FireBallDamage");
+        selectpool.Add("FireBallPierce");
+        selectpool.Add("FireBallProject");
+        selectpool.Add("FireBallChain");
+        if(selectpool.Contains("getFireBall"))
+            selectpool.Remove("getFireBall");
+    }
+    void setLightningBlastUpgrade(){
+        selectpool.Add("LightningBlastDamage");
+        selectpool.Add("LightningBlastHit");
+        selectpool.Add("LightningBlastHitRange");
+        selectpool.Add("LightningBlastAttackRange");
+        if(selectpool.Contains("getLightningBlast"))
+            selectpool.Remove("getLightningBlast");
+    }
+    void setMagicWeaponUpgrade(){
+        selectpool.Add("MagicWeaponNum");
+        selectpool.Add("MagicWeaponDamage");
+        if(selectpool.Contains("getMagicWeapon"))
+            selectpool.Remove("getMagicWeapon");
     }
 }
