@@ -9,7 +9,6 @@ public class SpinWeapon : MonoBehaviour
     List<GameObject> createWeapon = new List<GameObject>();
     float xpos=0f;
     float ypos=2.5f;
-    public bool isusing=false;
     [SerializeField]float circlesize=1f;
     float z=0;
     void Update(){
@@ -28,7 +27,6 @@ public class SpinWeapon : MonoBehaviour
             case 2:
                 foreach(GameObject _weapon in SpinWeapons){
                     createWeapon.Add(Instantiate(_weapon,new Vector3(transform.position.x+xpos,transform.position.y+ypos,transform.position.z)*circlesize,Quaternion.Euler(0f,0f,0f),this.transform));
-                    _weapon.SetActive(false);
                     ypos=0-ypos;
                 }
                 ypos=2.5f;
@@ -55,7 +53,6 @@ public class SpinWeapon : MonoBehaviour
                     else{
                         createWeapon.Add(Instantiate(_weapon,new Vector3(transform.position.x+xpos,transform.position.y+ypos,transform.position.z),Quaternion.Euler(0f,0f,0f),this.transform));
                     }
-                    _weapon.SetActive(false);
                 }
                 ypos=2.5f;
                 xpos=0;
@@ -89,7 +86,6 @@ public class SpinWeapon : MonoBehaviour
                     else{
                         createWeapon.Add(Instantiate(_weapon,new Vector3(transform.position.x+xpos,transform.position.y+ypos,transform.position.z),Quaternion.Euler(0f,0f,0f),this.transform));
                     }
-                    _weapon.SetActive(false);
                 }
                 xpos=2.5f;
                 ypos=0;
@@ -97,19 +93,6 @@ public class SpinWeapon : MonoBehaviour
             default:
                 Debug.Log("over 6");
                 break;
-        }
-    }
-    public void usemagicweapon(float sec){
-        foreach(GameObject _weapon in createWeapon){
-            isusing=true;
-            _weapon.SetActive(true);
-            Invoke("disableweapon",sec);
-        }
-    }
-    private void disableweapon(){
-        foreach(GameObject _weapon in createWeapon){
-            isusing=false;
-            _weapon.SetActive(false);
         }
     }
 }

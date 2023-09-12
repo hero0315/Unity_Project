@@ -5,7 +5,6 @@ public class MagicWeapon : MonoBehaviour , Attack
 {
     [SerializeField]private float basedamage;
     [SerializeField]private TextMeshPro damageText;
-    List<GameObject> hitlist=new List<GameObject>();
     void OnTriggerEnter2D(Collider2D collider){
         if(collider.gameObject.tag=="enemy"){
             if(!collider.gameObject.TryGetComponent<MarkHited>(out MarkHited component)){

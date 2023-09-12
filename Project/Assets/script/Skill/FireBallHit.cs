@@ -8,14 +8,14 @@ public class FireBallHit : MonoBehaviour , Attack
     [SerializeField]private float animDestroySecond;
     [SerializeField]private TextMeshPro damageText;
     [SerializeField]float projectforce=10f;
-    int lastpierceNum;
-    int lastchainNum;
+    [SerializeField]int lastpierceNum;
+    [SerializeField]int lastchainNum;
     [SerializeField]GameObject attackobject;
     Vector3 chainposition;
     List<GameObject> hitlist=new List<GameObject>();
     void Start()
     {
-        lastpierceNum=fireballState.Fireballpirece;
+        lastpierceNum=fireballState.Fireballpierce;
         lastchainNum=fireballState.FireballchainNum;
     }
     void OnTriggerEnter2D(Collider2D collider){

@@ -1,18 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class SkillController : MonoBehaviour
 {
     private Vector3 dir;
     [SerializeField]private GameObject firepoint;
-    [SerializeField]private GameObject SpinWeapon;
     [SerializeField]private GameObject nearbyDetect;
-    [SerializeField]private GameObject notInRange;
     [SerializeField]private GameObject fireball;
     [SerializeField]private GameObject lightningblast;
-    private Vector3 mousepos;
-    [SerializeField]private Camera cam;
     [SerializeField]private Image skillImage_Q;
     [SerializeField]private Image skillImage_M1;
     [SerializeField]private Image skillImage_W;
@@ -39,12 +34,6 @@ public class SkillController : MonoBehaviour
         }
     }
     [SerializeField]public List<skillpool> skillpools;
-    public int GetSkillCount(){
-        return skillpools.Count;
-    }
-    public void setnotInRange(){
-        notInRange.SetActive(false);
-    }
     void Start(){
         foreach(skillpool skill in skillpools){
             if(skill.skillname=="FireBall"){
@@ -60,6 +49,7 @@ public class SkillController : MonoBehaviour
     }
     void Update()
     {
+        /*
             if(Input.GetButton("mouse1")&&skillpools[0]!=null&&skillpools[0].iscooldowning==false){
                 mousepos= cam.ScreenToWorldPoint(Input.mousePosition);
                 Attack(skillpools[0]);
@@ -72,92 +62,80 @@ public class SkillController : MonoBehaviour
                     skillpools[0].iscooldowning=false;
                 }
             }
-            if(Input.GetButton("Q")&&skillpools[1]!=null&&skillpools[1].iscooldowning==false){
-                mousepos= cam.ScreenToWorldPoint(Input.mousePosition);
-                Attack(skillpools[1]);
-                skillpools[1].iscooldowning=true;
-                skillImage_Q.fillAmount=0;
-            }
-            else{
-                skillImage_Q.fillAmount+= (1/ skillpools[1].spellcastspeed*Time.deltaTime);
-                if(skillImage_Q.fillAmount>=1){
-                    skillpools[1].iscooldowning=false;
+            */
+                if(skillpools[0]!=null&&skillpools[0].iscooldowning==false){
+                        Attack(skillpools[0],0);
                 }
-            }
-            if(Input.GetButton("W")&&skillpools[2]!=null&&skillpools[2].iscooldowning==false){
-                mousepos= cam.ScreenToWorldPoint(Input.mousePosition);
-                Attack(skillpools[2]);
-                skillpools[2].iscooldowning=true;
-                skillImage_W.fillAmount=0;
-            }
-            else{
-                skillImage_W.fillAmount+= (1/ skillpools[2].spellcastspeed*Time.deltaTime);
-                if(skillImage_W.fillAmount>=1){
-                    skillpools[2].iscooldowning=false;
+                else{
+                    skillImage_M1.fillAmount+= (1/ skillpools[0].spellcastspeed*Time.deltaTime);
+                    if(skillImage_M1.fillAmount>=1){
+                        skillpools[0].iscooldowning=false;
+                    }
                 }
-            }
-            if(Input.GetButton("E")&&skillpools[3]!=null&&skillpools[3].iscooldowning==false){
-                mousepos= cam.ScreenToWorldPoint(Input.mousePosition);
-                Attack(skillpools[3]);
-                skillpools[3].iscooldowning=true;
-                skillImage_E.fillAmount=0;
-            }
-            else{
-                skillImage_E.fillAmount+= (1/ skillpools[3].spellcastspeed*Time.deltaTime);
-                if(skillImage_E.fillAmount>=1){
-                    skillpools[3].iscooldowning=false;
+                if(skillpools[1]!=null&&skillpools[1].iscooldowning==false){
+                        Attack(skillpools[1],1);
                 }
-            }
-            if(Input.GetButton("R")&&skillpools[4]!=null&&skillpools[4].iscooldowning==false){
-                mousepos= cam.ScreenToWorldPoint(Input.mousePosition);
-                Attack(skillpools[4]);
-                skillpools[4].iscooldowning=true;
-                skillImage_R.fillAmount=0;
-            }
-            else{
-                skillImage_R.fillAmount+= (1/ skillpools[4].spellcastspeed*Time.deltaTime);
-                if(skillImage_R.fillAmount>=1){
-                    skillpools[4].iscooldowning=false;
+                else{
+                    skillImage_Q.fillAmount+= (1/ skillpools[1].spellcastspeed*Time.deltaTime);
+                    if(skillImage_Q.fillAmount>=1){
+                        skillpools[1].iscooldowning=false;
+                    }
                 }
-            }
+                if(skillpools[2]!=null&&skillpools[2].iscooldowning==false){
+                        Attack(skillpools[2],2);
+                        
+                }
+                else{
+                    skillImage_W.fillAmount+= (1/ skillpools[2].spellcastspeed*Time.deltaTime);
+                    if(skillImage_W.fillAmount>=1){
+                        skillpools[2].iscooldowning=false;
+                    }
+                }
+                if(skillpools[3]!=null&&skillpools[3].iscooldowning==false){
+                        Attack(skillpools[3],3);
+                        
+                }
+                else{
+                    skillImage_E.fillAmount+= (1/ skillpools[3].spellcastspeed*Time.deltaTime);
+                    if(skillImage_E.fillAmount>=1){
+                        skillpools[3].iscooldowning=false;
+                    }
+                }
+                if(skillpools[4]!=null&&skillpools[4].iscooldowning==false){
+                        Attack(skillpools[4],4);
+                }
+                else{
+                    skillImage_R.fillAmount+= (1/ skillpools[4].spellcastspeed*Time.deltaTime);
+                    if(skillImage_R.fillAmount>=1){
+                        skillpools[4].iscooldowning=false;
+                    }
+                }
     }
-    private void Attack(skillpool skill){
-        Resources.UnloadUnusedAssets ();
+    private void Attack(skillpool skill,int skillnum){
+        GameObject Closest=nearbyDetect.GetComponent<playerNearBy>().getClosest();
         if(skill.skillname=="FireBall"){
-            dir = mousepos-firepoint.transform.position;
-            firepoint.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f);
-            if(fireballState.FireballFireNum>1){
-                float angle=fireballState.FireballFireNum*10-fireballState.FireballFireNum*3;
-                float fixangle= angle*2/(fireballState.FireballFireNum-1);
-                for(int i = 1;i<=fireballState.FireballFireNum;i++){
-                    GameObject attackObject = Instantiate(skill.skill,firepoint.transform.position,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg+angle));
-                    angle-=fixangle;
-                    attackObject.GetComponent<FireBall>().fly();
+            if(Closest!=null){
+                useskill(skillnum);
+                dir = Closest.transform.position-firepoint.transform.position;
+                firepoint.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f);
+                if(fireballState.FireballFireNum>1){
+                    float angle=fireballState.FireballFireNum*10-fireballState.FireballFireNum*3;
+                    float fixangle= angle*2/(fireballState.FireballFireNum-1);
+                    for(int i = 1;i<=fireballState.FireballFireNum;i++){
+                        GameObject attackObject = Instantiate(skill.skill,firepoint.transform.position,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg+angle));
+                        angle-=fixangle;
+                        attackObject.GetComponent<FireBall>().fly();
+                    }
                 }
-            }
-            else{
+                else{
                 GameObject attackObject = Instantiate(skill.skill,firepoint.transform.position,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg));
                 attackObject.GetComponent<FireBall>().fly();
+                }
             }
         }
         else if(skill.skillname=="LightningBlast"){
-            mousepos.z=0;
-            GameObject Closest=nearbyDetect.GetComponent<playerNearBy>().getClosest(mousepos);
-            if(Vector3.Distance(mousepos,firepoint.transform.position)>3.5f*lightningblastState.LightningBlastAttaackRange){
-                nearbyDetect.GetComponent<CircleCollider2D>().radius=1.4f*lightningblastState.LightningBlastAttaackRange;
-                notInRange.transform.localScale=new Vector3(0.175f*lightningblastState.LightningBlastAttaackRange,0.215f*lightningblastState.LightningBlastAttaackRange,1f);
-                notInRange.SetActive(true);
-                Invoke("setnotInRange",0.4f);
-            }
-            if(Closest==null){
-                float scale= (Vector3.Distance(mousepos,firepoint.transform.position)/2f);
-                Vector3 genpos= new Vector3(((mousepos.x-firepoint.transform.position.x)/scale)/2+firepoint.transform.position.x,((mousepos.y-firepoint.transform.position.y)/scale)/2+firepoint.transform.position.y,0);
-                dir = mousepos-firepoint.transform.position;
-                firepoint.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f);
-                GameObject attackObject = Instantiate(skill.skill,genpos,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg));
-                attackObject.transform.localScale=new Vector3(4f/10f,0.25f,0.25f);
-            }
-            else{
+            if(Closest!=null){
+                useskill(skillnum);
                 dir=Closest.transform.position-firepoint.transform.position;
                 firepoint.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f);
                 float distance = Vector3.Distance(firepoint.transform.position,Closest.transform.position);
@@ -165,9 +143,6 @@ public class SkillController : MonoBehaviour
                 attackObject.transform.localScale=new Vector3(distance*2f/10f,0.25f,0.25f);
                 attackObject.GetComponent<LightningBlast>().setTarget(Closest);
             }
-        }
-        else if(skill.skillname=="MagicWeapon"&&SpinWeapon.GetComponent<SpinWeapon>().isusing==false){
-            SpinWeapon.GetComponent<SpinWeapon>().usemagicweapon(magicweaponState.MagicWeaponDuration);
         }
     }
     public void swapskill(int i,int j){
@@ -238,6 +213,28 @@ public class SkillController : MonoBehaviour
                 skillImage_R.color= new Color(255f,255f,255f,255f);
                 skillImage_R.GetComponent<CanvasGroup>().interactable=true;
                 break;
+        }
+    }
+    private void useskill(int i){
+        if(i==0){
+            skillpools[0].iscooldowning=true;
+            skillImage_M1.fillAmount=0;
+        }
+        else if(i==1){
+            skillpools[1].iscooldowning=true;
+            skillImage_Q.fillAmount=0;
+        }
+        else if(i==2){
+            skillpools[2].iscooldowning=true;
+            skillImage_W.fillAmount=0;
+        }
+        else if(i==3){
+            skillpools[3].iscooldowning=true;
+            skillImage_E.fillAmount=0;
+        }
+        else if(i==4){
+            skillpools[4].iscooldowning=true;
+            skillImage_R.fillAmount=0;
         }
     }
 }

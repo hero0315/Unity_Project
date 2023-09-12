@@ -63,11 +63,6 @@ public class LevelSelectController : MonoBehaviour
             
             selectnum+=1;
         }
-        /*
-        foreach(int i in selectthisround){
-            Debug.Log(i);
-        }
-        */
     }
     public void LevelSelect1(){
         UpgradeSkill(Selects[0].SelectRandom);
@@ -97,8 +92,8 @@ public class LevelSelectController : MonoBehaviour
                 case "FireBallDamage":
                     fireballState.Fireballdamage+=20;
                     break;
-                case "FireBallPirece":
-                    fireballState.Fireballpirece+=1;
+                case "FireballPierce":
+                    fireballState.Fireballpierce+=1;
                     break;
                 case "FireBallProject":
                     fireballState.FireballFireNum+=2;
@@ -128,6 +123,7 @@ public class LevelSelectController : MonoBehaviour
                     skillController.setMagicWeapon();
                     spinWeapon.GetComponent<SpinWeapon>().addWeapon();
                     magicweaponState.MagicWeaponEnable=true;
+                    spinWeapon.SetActive(true);
                     break;
                 case "MagicWeaponDamage":
                     magicweaponState.MagicWeaponDamage+=10f;
@@ -166,7 +162,7 @@ public class LevelSelectController : MonoBehaviour
                 else{
                     return false;
                 }
-            case "FireBallPierce":
+            case "FireballPierce":
                 if(fireballState.FireEnable==true){
                     Selects[selectnum].setSprite(fireballSprite);
                     Selects[selectnum].SkillDescript.text="FireBall Pierce +1 Enemy";
@@ -258,7 +254,7 @@ public class LevelSelectController : MonoBehaviour
                 }
             case "MagicWeaponNum":
                 if(selectRecord.ContainsKey("MagicWeaponNum")){
-                    if(selectRecord["MagicWeaponNum"]>=3||magicweaponState.MagicWeaponEnable==false){
+                    if(selectRecord["MagicWeaponNum"]>=2||magicweaponState.MagicWeaponEnable==false){
                         return false;
                     }
                     else{
