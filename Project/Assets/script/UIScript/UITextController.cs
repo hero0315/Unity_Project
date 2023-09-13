@@ -56,7 +56,7 @@ public class UITextController : MonoBehaviour
         levelText.text="LV : "+playerState.level;
         LevelSelect.SetActive(true);
         LevelSelect.GetComponent<LevelSelectController>().setSelectsActive();
-        Time.timeScale = 0;
+        eventController.pauseEvent.Invoke();
     }
     private void getexp(){
         while(playerState.exp>=level_need_exp[playerState.level-1]){
@@ -70,7 +70,7 @@ public class UITextController : MonoBehaviour
         lifeText.text=playerState.playerHealth+" / "+maxHealth;
         if(playerState.playerHealth<=0){
             playerState.canEsc=false;
-            Time.timeScale = 0;
+            eventController.pauseEvent.Invoke();
             restartbutton.SetActive(true);
             coinText.text=""+playerState.coin;
             }

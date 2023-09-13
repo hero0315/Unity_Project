@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class enemyController : MonoBehaviour
 {
     [SerializeField]private float originhealth;
@@ -7,7 +6,7 @@ public class enemyController : MonoBehaviour
     [SerializeField]private float attackcooldown;
     [SerializeField]private float killexp=0;
     [SerializeField]private GameObject coin;
-    private float monsterhealth;
+    public float monsterhealth;
     private bool damageable=true;
     void Start(){
         monsterhealth=originhealth;

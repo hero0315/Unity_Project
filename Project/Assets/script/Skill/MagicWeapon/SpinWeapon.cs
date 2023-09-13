@@ -5,15 +5,45 @@ public class SpinWeapon : MonoBehaviour
 {
     [SerializeField]List<GameObject> SpinWeapons = new List<GameObject>();
     [SerializeField]List<GameObject> Weaponlsit = new List<GameObject>();
-    [SerializeField]SkillController skillcontroller;
     List<GameObject> createWeapon = new List<GameObject>();
+    [SerializeField]SkillController skillController;
     float xpos=0f;
     float ypos=2.5f;
-    [SerializeField]float circlesize=1f;
     float z=0;
+    float timer=0;
+    int MagicWeaponNum;
+    bool cancooldown=false;
+    public void setMagicWeaponNum(int num){
+       MagicWeaponNum=num;
+    }
     void Update(){
         transform.rotation=Quaternion.Euler(0f,0f,z);
         z+=Time.deltaTime*120f;
+        timer+=Time.deltaTime;
+        if(magicweaponState.MagicWeaponEnable&&magicweaponState.MagicWeaponusing==false){
+            foreach (GameObject Weapon in createWeapon)
+            {  
+                Weapon.SetActive(true);
+            }
+            skillController.skillImagepool[MagicWeaponNum].fillAmount=0;
+            magicweaponState.MagicWeaponusing=true;
+            Invoke("setunActive",magicweaponState.MagicWeaponDuration);
+        }
+        else if(magicweaponState.MagicWeaponEnable&&magicweaponState.MagicWeaponusing&&cancooldown==true){
+            skillController.skillImagepool[MagicWeaponNum].fillAmount+= (1/ magicweaponState.MagicWeaponCoolDown*Time.deltaTime);
+            if(skillController.skillImagepool[MagicWeaponNum].fillAmount>=1){
+                magicweaponState.MagicWeaponusing=false;
+                cancooldown=false;
+            }
+        }
+    }
+    void setunActive(){
+        foreach (GameObject Weapon in createWeapon)
+        {
+            magicweaponState.MagicWeaponusing=true;
+            cancooldown=true;
+            Weapon.SetActive(false);
+        }
     }
     
     public void addWeapon(){  
@@ -26,7 +56,7 @@ public class SpinWeapon : MonoBehaviour
         switch(SpinWeapons.Count){
             case 2:
                 foreach(GameObject _weapon in SpinWeapons){
-                    createWeapon.Add(Instantiate(_weapon,new Vector3(transform.position.x+xpos,transform.position.y+ypos,transform.position.z)*circlesize,Quaternion.Euler(0f,0f,0f),this.transform));
+                    createWeapon.Add(Instantiate(_weapon,new Vector3(transform.position.x+xpos,transform.position.y+ypos,transform.position.z),Quaternion.Euler(0f,0f,0f),this.transform));
                     ypos=0-ypos;
                 }
                 ypos=2.5f;

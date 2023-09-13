@@ -11,6 +11,7 @@ public class LevelSelectController : MonoBehaviour
     [SerializeField] Sprite fireballSprite;
     [SerializeField] Sprite lightningblastSprite;
     [SerializeField] Sprite MageicWeaponSprite;
+    [SerializeField] Sprite FlameJetSprite;
     List<string> selectpool=new List<string>();
     [System.Serializable]
     public class Select{
@@ -26,7 +27,7 @@ public class LevelSelectController : MonoBehaviour
     List<Select> Selects = new List<Select>();
     Dictionary<string, int> selectRecord=new Dictionary<string, int>();
     void Start(){
-        if(fireballState.FireEnable==false){
+        if(fireballState.FireballEnable==false){
             selectpool.Add("getFireBall");
         }
         else{
@@ -43,6 +44,12 @@ public class LevelSelectController : MonoBehaviour
         }
         else{
             setMagicWeaponUpgrade();
+        }
+        if(FlameJetState.FlameJetEnable==false){
+            selectpool.Add("getFlameJet");
+        }
+        else{
+            setFlameJetUpgrade();
         }
         this.gameObject.SetActive(false);
     }
@@ -63,23 +70,27 @@ public class LevelSelectController : MonoBehaviour
             
             selectnum+=1;
         }
+        foreach (string i in selectpool)
+        {
+            Debug.Log(i);
+        }
     }
     public void LevelSelect1(){
         UpgradeSkill(Selects[0].SelectRandom);
         Addselectrecord(Selects[0].SelectRandom);
-        Time.timeScale = 1;
+        eventController.depauseEvent.Invoke();
         LevelSelect.SetActive(false);
     }
     public void LevelSelect2(){
         UpgradeSkill(Selects[1].SelectRandom);
         Addselectrecord(Selects[1].SelectRandom);
-        Time.timeScale = 1;
+        eventController.depauseEvent.Invoke();
         LevelSelect.SetActive(false);
     }
     public void LevelSelect3(){
         UpgradeSkill(Selects[2].SelectRandom);
         Addselectrecord(Selects[2].SelectRandom);
-        Time.timeScale = 1;
+        eventController.depauseEvent.Invoke();
         LevelSelect.SetActive(false);
     }
     void UpgradeSkill(int selectRandom){
@@ -87,7 +98,7 @@ public class LevelSelectController : MonoBehaviour
                 case "getFireBall":
                     setFireBallUpgrade();
                     skillController.setFireBall();
-                    fireballState.FireEnable=true;
+                    fireballState.FireballEnable=true;
                     break;
                 case "FireBallDamage":
                     fireballState.Fireballdamage+=20;
@@ -131,6 +142,14 @@ public class LevelSelectController : MonoBehaviour
                 case "MagicWeaponNum":
                     spinWeapon.GetComponent<SpinWeapon>().addWeapon();
                     break;
+                case "getFlameJet":
+                    setFlameJetUpgrade();
+                    skillController.setFlameJet();
+                    FlameJetState.FlameJetEnable=true;
+                    break;
+                case "FlameJetDamage":
+                    FlameJetState.FlameJetDamage+=10f;
+                    break;
 
             }
     }
@@ -145,7 +164,7 @@ public class LevelSelectController : MonoBehaviour
     bool isUpgradeEnable(int UpgradeNum,int selectnum){
         switch (selectpool[UpgradeNum]){
             case "getFireBall":
-                if(fireballState.FireEnable==true){
+                if(fireballState.FireballEnable==true){
                     return false;
                 }
                 else{
@@ -154,7 +173,7 @@ public class LevelSelectController : MonoBehaviour
                     return true;
                 }
             case "FireBallDamage":
-                if(fireballState.FireEnable==true){
+                if(fireballState.FireballEnable==true){
                     Selects[selectnum].setSprite(fireballSprite);
                     Selects[selectnum].SkillDescript.text="FireBall Damage + 20";
                     return true;
@@ -163,7 +182,7 @@ public class LevelSelectController : MonoBehaviour
                     return false;
                 }
             case "FireballPierce":
-                if(fireballState.FireEnable==true){
+                if(fireballState.FireballEnable==true){
                     Selects[selectnum].setSprite(fireballSprite);
                     Selects[selectnum].SkillDescript.text="FireBall Pierce +1 Enemy";
                     return true;
@@ -172,7 +191,7 @@ public class LevelSelectController : MonoBehaviour
                     return false;
                 }
             case "FireBallProject":
-                if(fireballState.FireEnable==true){
+                if(fireballState.FireballEnable==true){
                     Selects[selectnum].setSprite(fireballSprite);
                     Selects[selectnum].SkillDescript.text="FireBall Fire +2 Project";
                     return true;
@@ -181,7 +200,7 @@ public class LevelSelectController : MonoBehaviour
                     return false;
                 }
             case "FireBallChain":
-                if(fireballState.FireEnable==true){
+                if(fireballState.FireballEnable==true){
                     Selects[selectnum].setSprite(fireballSprite);
                     Selects[selectnum].SkillDescript.text="FireBall Chain +1 Enemy";
                     return true;
@@ -266,6 +285,24 @@ public class LevelSelectController : MonoBehaviour
                 else{
                     return true;
                 }
+            case "getFlameJet":
+                if(FlameJetState.FlameJetEnable){
+                   return false; 
+                }
+                else{
+                    Selects[selectnum].setSprite(FlameJetSprite);
+                    Selects[selectnum].SkillDescript.text="Get FlameJet Skill";
+                    return true;
+                }
+            case "FlameJetDamage":
+                if(FlameJetState.FlameJetEnable){
+                    Selects[selectnum].setSprite(FlameJetSprite);
+                    Selects[selectnum].SkillDescript.text="Flame Jet +10 Damage";
+                    return true;
+                }
+                else{
+                    return false;
+                }
             default:
                 return false;
         }
@@ -291,5 +328,10 @@ public class LevelSelectController : MonoBehaviour
         selectpool.Add("MagicWeaponDamage");
         if(selectpool.Contains("getMagicWeapon"))
             selectpool.Remove("getMagicWeapon");
+    }
+    void setFlameJetUpgrade(){
+        selectpool.Add("FlameJetDamage");
+        if(selectpool.Contains("getFlameJet"))
+            selectpool.Remove("getFlameJet");
     }
 }

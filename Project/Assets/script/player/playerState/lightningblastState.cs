@@ -1,6 +1,7 @@
 public class lightningblastState
 {
     public static bool LightningBlastEnable=false;
+    public static bool LightningBlastcooldowning=false;
     public static float LightningBlastdamage=0;
     public static int LightningBlastchainNum=2;
     public static float LightningBlastcastspeed=0.7f;

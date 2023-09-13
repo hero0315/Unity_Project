@@ -4,9 +4,6 @@ using UnityEngine;
 public class playerNearBy : MonoBehaviour
 {
     private List<GameObject> detect = new List<GameObject>();
-    void Start(){
-
-    }
     void OnTriggerEnter2D(Collider2D collider){
         if(collider.tag=="enemy"){
             detect.Add(collider.gameObject);
