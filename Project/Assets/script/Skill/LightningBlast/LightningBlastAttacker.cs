@@ -24,15 +24,15 @@ public class LightningBlastAttacker : MonoBehaviour
         }
     }
     void Attack(){
-        GameObject Closest=nearbyDetect.GetComponent<playerNearBy>().getClosest();
-        if(Closest!=null){
+        GameObject Far=nearbyDetect.GetComponent<LightningBlastDetect>().getFar();
+        if(Far!=null){
             setImage();
-            dir=Closest.transform.position-firepoint.transform.position;
+            dir=Far.transform.position-firepoint.transform.position;
             firepoint.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f);
-            float distance = Vector3.Distance(firepoint.transform.position,Closest.transform.position);
-            GameObject attackObject = Instantiate(LightningBlast,(Closest.transform.position+firepoint.transform.position)/2,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg));
+            float distance = Vector3.Distance(firepoint.transform.position,Far.transform.position);
+            GameObject attackObject = Instantiate(LightningBlast,(Far.transform.position+firepoint.transform.position)/2,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg));
             attackObject.transform.localScale=new Vector3(distance*2f/10f,0.25f,0.25f);
-            attackObject.GetComponent<LightningBlast>().setTarget(Closest);
+            attackObject.GetComponent<LightningBlast>().setTarget(Far);
         }
     }
     void setImage(){

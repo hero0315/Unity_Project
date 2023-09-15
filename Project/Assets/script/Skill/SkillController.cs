@@ -7,10 +7,12 @@ public class SkillController : MonoBehaviour
     public int FireballNum;
     public int LightningBlastNum;
     public int FlameJetNum;
+    public int PlagueSlashnum;
     [SerializeField]private GameObject FireBallattacker;
     [SerializeField]private GameObject LightningBlastattacker;
     [SerializeField]private GameObject Spinweapon;
     [SerializeField]private GameObject FlameJetattacker;
+    [SerializeField]private GameObject PlagueSlashattacker;
     [SerializeField]public List<Image> skillImagepool;
     [SerializeField]private Image skillImage_0;
     [SerializeField]private Image skillImage_1;
@@ -21,6 +23,7 @@ public class SkillController : MonoBehaviour
     [SerializeField]private Sprite fireballSprite;
     [SerializeField]private Sprite lightningblastSprite;
     [SerializeField]private Sprite FlameJetSprite;
+    [SerializeField]private Sprite PlagueSlashSprite;
 
     public List<string> skillpool;
     void Start(){
@@ -33,6 +36,7 @@ public class SkillController : MonoBehaviour
         skillImagepool.Add(skillImage_2);
         skillImagepool.Add(skillImage_3);
         skillImagepool.Add(skillImage_4);
+        setPlagueSlashnum();
     }
     public void setFireBall(){
         int num=0;
@@ -93,6 +97,21 @@ public class SkillController : MonoBehaviour
         FlameJetNum=num;
         FlameJetattacker.GetComponent<FlameJetAttacker>().setFlameJetNum(num);
         setbutton(num,FlameJetSprite);
+    }
+    public void setPlagueSlashnum(){
+        int num=0;
+        plagueslashState.PlagueSlashEnable=true;
+        PlagueSlashattacker.SetActive(true);
+        for(int i=0;i<=4;i++){
+            if(skillpool[i]==""){
+                num=i;
+                break;
+            }
+        }
+        skillpool[num]="PlagueSlash";
+        PlagueSlashnum=num;
+        PlagueSlashattacker.GetComponent<PlagueSlashAttacker>().setPlagueSlashnum(num);
+        setbutton(num,PlagueSlashSprite);
     }
     private void setbutton(int num,Sprite sprite){
         switch(num){
