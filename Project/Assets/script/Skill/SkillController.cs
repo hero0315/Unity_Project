@@ -8,11 +8,15 @@ public class SkillController : MonoBehaviour
     public int LightningBlastNum;
     public int FlameJetNum;
     public int PlagueSlashnum;
+    public int WaterSplashnum;
+    public int BloodExplodenum;
     [SerializeField]private GameObject FireBallattacker;
     [SerializeField]private GameObject LightningBlastattacker;
     [SerializeField]private GameObject Spinweapon;
     [SerializeField]private GameObject FlameJetattacker;
     [SerializeField]private GameObject PlagueSlashattacker;
+    [SerializeField]private GameObject WaterSplashattacker;
+    [SerializeField]private GameObject BloodExplodeatacker;
     [SerializeField]public List<Image> skillImagepool;
     [SerializeField]private Image skillImage_0;
     [SerializeField]private Image skillImage_1;
@@ -24,7 +28,8 @@ public class SkillController : MonoBehaviour
     [SerializeField]private Sprite lightningblastSprite;
     [SerializeField]private Sprite FlameJetSprite;
     [SerializeField]private Sprite PlagueSlashSprite;
-
+    [SerializeField]private Sprite WaterSplashSprite;
+    [SerializeField]private Sprite BloodExplodeSplashSprite;
     public List<string> skillpool;
     void Start(){
         for(int i=0;i<=4;i++){
@@ -36,7 +41,9 @@ public class SkillController : MonoBehaviour
         skillImagepool.Add(skillImage_2);
         skillImagepool.Add(skillImage_3);
         skillImagepool.Add(skillImage_4);
-        setPlagueSlashnum();
+        //setPlagueSlash();
+        //setWaterSplash();
+        //setBloodExplode();
     }
     public void setFireBall(){
         int num=0;
@@ -98,7 +105,7 @@ public class SkillController : MonoBehaviour
         FlameJetattacker.GetComponent<FlameJetAttacker>().setFlameJetNum(num);
         setbutton(num,FlameJetSprite);
     }
-    public void setPlagueSlashnum(){
+    public void setPlagueSlash(){
         int num=0;
         plagueslashState.PlagueSlashEnable=true;
         PlagueSlashattacker.SetActive(true);
@@ -112,6 +119,36 @@ public class SkillController : MonoBehaviour
         PlagueSlashnum=num;
         PlagueSlashattacker.GetComponent<PlagueSlashAttacker>().setPlagueSlashnum(num);
         setbutton(num,PlagueSlashSprite);
+    }
+    public void setWaterSplash(){
+        int num=0;
+        watersplashState.WaterSplashEnable=true;
+        WaterSplashattacker.SetActive(true);
+        for(int i=0;i<=4;i++){
+            if(skillpool[i]==""){
+                num=i;
+                break;
+            }
+        }
+        skillpool[num]="WaterSplash";
+        WaterSplashnum=num;
+        WaterSplashattacker.GetComponent<WaterSplashAttacker>().setWaterSplashNum(WaterSplashnum);
+        setbutton(num,WaterSplashSprite);
+    }
+    public void setBloodExplode(){
+        int num=0;
+        BloodExplodeState.BloodExplodeEnable=true;
+        BloodExplodeatacker.SetActive(true);
+        for(int i=0;i<=4;i++){
+            if(skillpool[i]==""){
+                num=i;
+                break;
+            }
+        }
+        skillpool[num]="BloodExplode";
+        BloodExplodenum=num;
+        BloodExplodeatacker.GetComponent<BloodExplodeAttacker>().setBloodExplodeNum(BloodExplodenum);
+        setbutton(num,BloodExplodeSplashSprite);
     }
     private void setbutton(int num,Sprite sprite){
         switch(num){

@@ -23,12 +23,12 @@ public class playerNearBy : MonoBehaviour
         }
         
     }
-    public GameObject getClosest(){
+    public GameObject getClosest(float radio){
         float distance=100; 
         GameObject closest=null;
         foreach (GameObject monster in detect){
             float mosterdistance=Vector3.Distance(monster.transform.position, this.transform.position);
-            if(mosterdistance<distance){
+            if(mosterdistance<distance&&mosterdistance<radio){
                 closest=monster;
                 distance=mosterdistance;
             }
@@ -40,13 +40,13 @@ public class playerNearBy : MonoBehaviour
             return closest;
         }
     }
-    public GameObject getClosest(float radio){
-        float distance=100; 
-        GameObject closest=null;
+    public GameObject getFarthest(float radio){
+        float distance=0; 
+        GameObject farthest=null;
         foreach (GameObject monster in detect){
             float mosterdistance=Vector3.Distance(monster.transform.position, this.transform.position);
-            if(mosterdistance<distance&&distance<radio){
-                closest=monster;
+            if(mosterdistance>distance&&mosterdistance<radio){
+                farthest=monster;
                 distance=mosterdistance;
             }
         }
@@ -54,7 +54,24 @@ public class playerNearBy : MonoBehaviour
             return null;
         }
         else{
-            return closest;
+            return farthest;
+        }
+    }
+    public GameObject getRandom(float radio){
+        if(detect.Count==0){
+            return null;
+        }
+        List<GameObject> monsterlist=new List<GameObject>();
+        foreach(GameObject monster in detect){
+            if(Vector3.Distance(monster.transform.position, this.transform.position)<radio){
+                monsterlist.Add(monster);
+            }
+        }
+        if(monsterlist.Count==0){
+            return null;
+        }
+        else{
+            return monsterlist[Random.Range(0,monsterlist.Count)];
         }
     }
 }

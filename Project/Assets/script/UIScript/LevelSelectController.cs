@@ -12,6 +12,8 @@ public class LevelSelectController : MonoBehaviour
     [SerializeField] Sprite lightningblastSprite;
     [SerializeField] Sprite MageicWeaponSprite;
     [SerializeField] Sprite FlameJetSprite;
+    [SerializeField] Sprite WaterSplashSprite;
+    [SerializeField] Sprite BloodExplodeSprite;
     List<string> selectpool=new List<string>();
     [System.Serializable]
     public class Select{
@@ -50,6 +52,18 @@ public class LevelSelectController : MonoBehaviour
         }
         else{
             setFlameJetUpgrade();
+        }
+        if(watersplashState.WaterSplashEnable==false){
+            selectpool.Add("getWaterSplash");
+        }
+        else{
+            setWaterSplashUpgrade();
+        }
+        if(BloodExplodeState.BloodExplodeEnable==false){
+            selectpool.Add("getBloodExplode");
+        }
+        else{
+            setBloodExplodeUpgrade();
         }
         this.gameObject.SetActive(false);
     }
@@ -149,6 +163,22 @@ public class LevelSelectController : MonoBehaviour
                     break;
                 case "FlameJetDamage":
                     FlameJetState.FlameJetDamage+=10f;
+                    break;
+                case "getWaterSplash":
+                    setWaterSplashUpgrade();
+                    skillController.setWaterSplash();
+                    watersplashState.WaterSplashEnable=true;
+                    break;
+                case "WaterSplashDamage":
+                    watersplashState.WaterSplashdamage+=20f;
+                    break;
+                case "getBloodExplode":
+                    setBloodExplodeUpgrade();
+                    skillController.setBloodExplode();
+                    BloodExplodeState.BloodExplodeEnable=true;
+                    break;
+                case "BloodExplodeDamage":
+                    BloodExplodeState.BloodExplodeDamage+=10f;
                     break;
 
             }
@@ -303,8 +333,44 @@ public class LevelSelectController : MonoBehaviour
                 else{
                     return false;
                 }
-            default:
-                return false;
+            case "getWaterSplash":
+                if(watersplashState.WaterSplashEnable){
+                   return false; 
+                }
+                else{
+                    Selects[selectnum].setSprite(WaterSplashSprite);
+                    Selects[selectnum].SkillDescript.text="Get Water Splash Skill";
+                    return true;
+                }
+                case "WaterSplashDamage":
+                if(watersplashState.WaterSplashEnable){
+                    Selects[selectnum].setSprite(WaterSplashSprite);
+                    Selects[selectnum].SkillDescript.text="Water Splash +5 Damage";
+                    return true;
+                }
+                else{
+                    return false;
+                }
+                case "getBloodExplode":
+                    if(BloodExplodeState.BloodExplodeEnable){
+                        return false; 
+                    }
+                    else{
+                        Selects[selectnum].setSprite(BloodExplodeSprite);
+                        Selects[selectnum].SkillDescript.text="Get Blood Explode Skill";
+                        return true;
+                    }
+                case "BloodExplodeDamage":
+                    if(BloodExplodeState.BloodExplodeEnable){
+                        Selects[selectnum].setSprite(BloodExplodeSprite);
+                        Selects[selectnum].SkillDescript.text="Blood Explode +10 Damage";
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                default:
+                    return false;
         }
     }
     void setFireBallUpgrade(){
@@ -333,5 +399,15 @@ public class LevelSelectController : MonoBehaviour
         selectpool.Add("FlameJetDamage");
         if(selectpool.Contains("getFlameJet"))
             selectpool.Remove("getFlameJet");
+    }
+    void setWaterSplashUpgrade(){
+        selectpool.Add("WaterSplashDamage");
+        if(selectpool.Contains("getWaterSplash"))
+            selectpool.Remove("getWaterSplash");
+    }
+    void setBloodExplodeUpgrade(){
+        selectpool.Add("BloodExplodeDamage");
+        if(selectpool.Contains("getBloodExplode"))
+            selectpool.Remove("getBloodExplode");
     }
 }

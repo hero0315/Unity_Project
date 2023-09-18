@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-public class FlameJetDot : MonoBehaviour
+public class  WaterSplashDot : MonoBehaviour
 {
     private TextMeshPro damagetext;
     public void setTextMeshPro(TextMeshPro damageText){
@@ -11,13 +11,13 @@ public class FlameJetDot : MonoBehaviour
         Destroy(this);
     }
     void Start(){
-        StartCoroutine(FlameJetDotDamage());
+        StartCoroutine(WaterSplashDotDamage());
     }
-    IEnumerator FlameJetDotDamage(){
+    IEnumerator WaterSplashDotDamage(){
         while(true){
-            this.gameObject.GetComponent<enemyController>().decreasehealth(FlameJetState.FlameJetDamage);
+            this.gameObject.GetComponent<enemyController>().decreasehealth(watersplashState.WaterSplashDotdamage);
             TextMeshPro createText = Instantiate(damagetext,new Vector3(this.transform.position.x,this.transform.position.y+0.6f,this.transform.position.z),Quaternion.identity);
-            createText.text=""+(FlameJetState.FlameJetDamage);
+            createText.text=""+(watersplashState.WaterSplashDotdamage);
             yield return new WaitForSeconds(0.25f);
         }
     }

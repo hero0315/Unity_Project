@@ -24,6 +24,9 @@ public class enemyController : MonoBehaviour
     public void decreasehealth(float damage){
         monsterhealth-=damage;
         if(monsterhealth<=0){
+            if(BloodExplodeState.BloodExplodeEnable==true){
+                BloodExplodeAttacker.monsterdead.Invoke(this.transform.position);
+            }
             monsterhealth=originhealth;
             playerState.exp+=killexp;
             UITextController.expEvent.Invoke();

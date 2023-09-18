@@ -14,7 +14,10 @@ public class LightningBlastAttacker : MonoBehaviour
     void Update()
     {
         if(lightningblastState.LightningBlastEnable&&fireballState.Fireballcooldowning==false){
-            Attack();
+            GameObject Far=nearbyDetect.GetComponent<playerNearBy>().getFarthest(4);
+            if(Far!=null){
+                Attack(Far);
+            }
         }
         else if(lightningblastState.LightningBlastEnable&&lightningblastState.LightningBlastcooldowning==true){
             skillController.skillImagepool[LightningBlastNum].fillAmount+= (1/ lightningblastState.LightningBlastcastspeed*Time.deltaTime);
@@ -23,17 +26,14 @@ public class LightningBlastAttacker : MonoBehaviour
             }
         }
     }
-    void Attack(){
-        GameObject Far=nearbyDetect.GetComponent<LightningBlastDetect>().getFar();
-        if(Far!=null){
-            setImage();
-            dir=Far.transform.position-firepoint.transform.position;
-            firepoint.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f);
-            float distance = Vector3.Distance(firepoint.transform.position,Far.transform.position);
-            GameObject attackObject = Instantiate(LightningBlast,(Far.transform.position+firepoint.transform.position)/2,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg));
-            attackObject.transform.localScale=new Vector3(distance*2f/10f,0.25f,0.25f);
-            attackObject.GetComponent<LightningBlast>().setTarget(Far);
-        }
+    void Attack(GameObject Far){
+        setImage();
+        dir=Far.transform.position-firepoint.transform.position;
+        firepoint.transform.rotation=Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg-90f);
+        float distance = Vector3.Distance(firepoint.transform.position,Far.transform.position);
+        GameObject attackObject = Instantiate(LightningBlast,(Far.transform.position+firepoint.transform.position)/2,Quaternion.Euler(0f,0f,Mathf.Atan2(dir.y,dir.x)* Mathf.Rad2Deg));
+        attackObject.transform.localScale=new Vector3(distance*2f/10f,0.25f,0.25f);
+        attackObject.GetComponent<LightningBlast>().setTarget(Far);
     }
     void setImage(){
         skillController.skillImagepool[LightningBlastNum].fillAmount=0;

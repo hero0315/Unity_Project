@@ -21,7 +21,7 @@ public class enemyGenerater : MonoBehaviour
         foreach(spawnpool spawnpool in spawnpools){
             Queue<GameObject> objpool=new Queue<GameObject>();
             for(int i=0;i<spawnpool.size;i++){
-                GameObject obj = Instantiate(spawnpool.monster);
+                GameObject obj = Instantiate(spawnpool.monster,this.gameObject.transform);
                 obj.SetActive(false);
                 objpool.Enqueue(obj);
             }
