@@ -11,8 +11,6 @@ public class FireBallAttacker : MonoBehaviour
     public void setFireballNum(int num){
        FireballNum=num;
     }
-
-    // Update is called once per frame
     void Update()
     {
         if(fireballState.FireballEnable&&fireballState.Fireballcooldowning==false){

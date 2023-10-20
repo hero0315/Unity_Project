@@ -10,6 +10,7 @@ public class SkillController : MonoBehaviour
     public int PlagueSlashnum;
     public int WaterSplashnum;
     public int BloodExplodenum;
+    public int LightningStrikenum;
     [SerializeField]private GameObject FireBallattacker;
     [SerializeField]private GameObject LightningBlastattacker;
     [SerializeField]private GameObject Spinweapon;
@@ -17,6 +18,7 @@ public class SkillController : MonoBehaviour
     [SerializeField]private GameObject PlagueSlashattacker;
     [SerializeField]private GameObject WaterSplashattacker;
     [SerializeField]private GameObject BloodExplodeatacker;
+    [SerializeField]private GameObject LightningStrikeattacker;
     [SerializeField]public List<Image> skillImagepool;
     [SerializeField]private Image skillImage_0;
     [SerializeField]private Image skillImage_1;
@@ -30,6 +32,8 @@ public class SkillController : MonoBehaviour
     [SerializeField]private Sprite PlagueSlashSprite;
     [SerializeField]private Sprite WaterSplashSprite;
     [SerializeField]private Sprite BloodExplodeSplashSprite;
+    [SerializeField]private Sprite LightningStrikeSprite;
+    
     public List<string> skillpool;
     void Start(){
         for(int i=0;i<=4;i++){
@@ -43,7 +47,8 @@ public class SkillController : MonoBehaviour
         skillImagepool.Add(skillImage_4);
         //setPlagueSlash();
         //setWaterSplash();
-        //setBloodExplode();
+        setBloodExplode();
+        //setLightningStrike();
     }
     public void setFireBall(){
         int num=0;
@@ -149,6 +154,21 @@ public class SkillController : MonoBehaviour
         BloodExplodenum=num;
         BloodExplodeatacker.GetComponent<BloodExplodeAttacker>().setBloodExplodeNum(BloodExplodenum);
         setbutton(num,BloodExplodeSplashSprite);
+    }
+    public void setLightningStrike(){
+        int num=0;
+        LightningStrikeState.LightningStrikeEnable=true;
+        LightningStrikeattacker.SetActive(true);
+        for(int i=0;i<=4;i++){
+            if(skillpool[i]==""){
+                num=i;
+                break;
+            }
+        }
+        skillpool[num]="LightningStrike";
+        LightningStrikenum=num;
+        LightningStrikeattacker.GetComponent<LightningStrikeAttacker>().setLightningStrikeNum(LightningStrikenum);
+        setbutton(num,LightningStrikeSprite);
     }
     private void setbutton(int num,Sprite sprite){
         switch(num){

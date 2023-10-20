@@ -1,5 +1,4 @@
 using TMPro;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WaterSplashHit : MonoBehaviour
@@ -9,12 +8,11 @@ public class WaterSplashHit : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider){
         if(collider.gameObject.tag=="enemy"){
             if(timer<=0.1f){
-                TextMeshPro createText = Instantiate(damageText,new Vector3(this.transform.position.x,this.transform.position.y+0.6f,this.transform.position.z),Quaternion.identity);
-                createText.text=""+(watersplashState.WaterSplashdamage);
+                float damage=watersplashState.WaterSplashdamage;
+                eventController.damageEvent.Invoke(damage,this.transform.position);
             }
             else{
                 WaterSplashDot waterSplashDot=collider.gameObject.AddComponent<WaterSplashDot>();
-                waterSplashDot.setTextMeshPro(damageText);
             }
         }
     }

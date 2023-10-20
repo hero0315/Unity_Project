@@ -26,6 +26,11 @@ public class playerState
         fireballState.restart();
         lightningblastState.restart();
         magicweaponState.restart();
+        BloodExplodeState.restart();
+        FlameJetState.restart();
+        LightningStrikeState.restart();
+        plagueslashState.restart();
+        watersplashState.restart();
         restartplayer();
     }
 }

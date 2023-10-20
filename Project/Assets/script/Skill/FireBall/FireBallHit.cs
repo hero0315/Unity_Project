@@ -6,7 +6,6 @@ public class FireBallHit : MonoBehaviour , Attack
     [SerializeField]private float basedamage;
     [SerializeField]private GameObject anim;
     [SerializeField]private float animDestroySecond;
-    [SerializeField]private TextMeshPro damageText;
     [SerializeField]float projectforce=10f;
     [SerializeField]int lastpierceNum;
     [SerializeField]int lastchainNum;
@@ -22,10 +21,10 @@ public class FireBallHit : MonoBehaviour , Attack
         if(collider.gameObject.tag=="enemy"){
             if(!hitlist.Contains(collider.gameObject)){
                 hitlist.Add(collider.gameObject);
-                collider.gameObject.GetComponent<enemyController>().decreasehealth(fireballState.Fireballdamage+basedamage);
+                float damage=fireballState.Fireballdamage+basedamage;
+                eventController.damageEvent.Invoke(damage,this.transform.position);
+                collider.gameObject.GetComponent<enemyController>().decreasehealth(damage);
                 GameObject _anim=Instantiate(anim,this.transform.position, Quaternion.identity);
-                TextMeshPro createText = Instantiate(damageText,new Vector3(collider.transform.position.x,collider.transform.position.y+0.6f,collider.transform.position.z),Quaternion.identity);
-                createText.text=""+(fireballState.Fireballdamage+basedamage);
                 Destroy(_anim,animDestroySecond);
             }
             if(lastpierceNum<=0){

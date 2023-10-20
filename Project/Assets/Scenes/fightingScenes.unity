@@ -1197,6 +1197,7 @@ MonoBehaviour:
   PlagueSlashnum: 0
   WaterSplashnum: 0
   BloodExplodenum: 0
+  LightningStrikenum: 0
   FireBallattacker: {fileID: 1280568136}
   LightningBlastattacker: {fileID: 1976705632}
   Spinweapon: {fileID: 914150790}
@@ -1204,6 +1205,7 @@ MonoBehaviour:
   PlagueSlashattacker: {fileID: 1102502278}
   WaterSplashattacker: {fileID: 1486441263}
   BloodExplodeatacker: {fileID: 1748166526}
+  LightningStrikeattacker: {fileID: 966238797}
   skillImagepool: []
   skillImage_0: {fileID: 1747284141}
   skillImage_1: {fileID: 1670379860}
@@ -1218,6 +1220,8 @@ MonoBehaviour:
   PlagueSlashSprite: {fileID: 21300000, guid: f7da018614b01fc47a2d6db67a48d185, type: 3}
   WaterSplashSprite: {fileID: 21300000, guid: 6e9aad62f1d375042aa16fd16ed0062f, type: 3}
   BloodExplodeSplashSprite: {fileID: -114716134, guid: 29f81a1056ae47e46a54c229d6efb763,
+    type: 3}
+  LightningStrikeSprite: {fileID: 21300000, guid: 28fde5ad6ed0d3a4685e48be56cf2c5c,
     type: 3}
   skillpool: []
 --- !u!1 &284197157
@@ -1496,6 +1500,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 282b508539256054ca2f1398f5dcc321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageText: {fileID: 8076126600974250644, guid: 98a80f174d4ccb143806cf916c363c7b,
+    type: 3}
 --- !u!1 &382811117
 GameObject:
   m_ObjectHideFlags: 0
@@ -3755,7 +3761,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -5384,6 +5390,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928384724}
   m_CullTransparentMesh: 1
+--- !u!1 &966238797
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 966238798}
+  - component: {fileID: 966238799}
+  m_Layer: 0
+  m_Name: LightningStrikeAttacker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &966238798
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966238797}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 135477504}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &966238799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966238797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea17a0132839044380f489b0dd43085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillController: {fileID: 274438625}
+  nearbyDetect: {fileID: 163765003}
+  LightningStrike: {fileID: 3813519642414524479, guid: 3a537d98195c5fe4ba20e5c71e7f0000,
+    type: 3}
 --- !u!1 &972233554
 GameObject:
   m_ObjectHideFlags: 0
@@ -6029,6 +6083,8 @@ MonoBehaviour:
   FlameJetSprite: {fileID: 21300000, guid: f7da018614b01fc47a2d6db67a48d185, type: 3}
   WaterSplashSprite: {fileID: 21300000, guid: 6e9aad62f1d375042aa16fd16ed0062f, type: 3}
   BloodExplodeSprite: {fileID: -114716134, guid: 29f81a1056ae47e46a54c229d6efb763,
+    type: 3}
+  LightningStrikeSprite: {fileID: 21300000, guid: 28fde5ad6ed0d3a4685e48be56cf2c5c,
     type: 3}
   Selects:
   - SelectSkill: {fileID: 663928214}
@@ -9226,7 +9282,7 @@ MonoBehaviour:
     type: ghost
     monster: {fileID: 5922617969737262420, guid: 1405f3297e295384fba1b5c15b5620c5,
       type: 3}
-    spawndelay: 2
+    spawndelay: 1
     size: 100
   - Timer: 0
     type: skeleton

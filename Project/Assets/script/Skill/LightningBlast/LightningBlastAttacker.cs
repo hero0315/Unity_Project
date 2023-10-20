@@ -13,7 +13,7 @@ public class LightningBlastAttacker : MonoBehaviour
     }
     void Update()
     {
-        if(lightningblastState.LightningBlastEnable&&fireballState.Fireballcooldowning==false){
+        if(lightningblastState.LightningBlastEnable&&lightningblastState.LightningBlastcooldowning==false){
             GameObject Far=nearbyDetect.GetComponent<playerNearBy>().getFarthest(4);
             if(Far!=null){
                 Attack(Far);

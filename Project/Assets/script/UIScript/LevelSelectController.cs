@@ -14,6 +14,7 @@ public class LevelSelectController : MonoBehaviour
     [SerializeField] Sprite FlameJetSprite;
     [SerializeField] Sprite WaterSplashSprite;
     [SerializeField] Sprite BloodExplodeSprite;
+    [SerializeField] Sprite LightningStrikeSprite;
     List<string> selectpool=new List<string>();
     [System.Serializable]
     public class Select{
@@ -65,23 +66,27 @@ public class LevelSelectController : MonoBehaviour
         else{
             setBloodExplodeUpgrade();
         }
+        if(LightningStrikeState.LightningStrikeEnable==false){
+            selectpool.Add("getLightningStrike");
+        }
+        else{
+            setLightningBlastUpgrade();
+        }
         this.gameObject.SetActive(false);
     }
     public void setSelectsActive(){
         List<int> selectthisround=new List<int>();
         int selectnum=0;
         foreach(Select select in Selects){
-            select.SelectRandom = Random.Range(0,selectpool.Count-1);
             while(true){
+                select.SelectRandom = Random.Range(0,selectpool.Count);
                 if(!selectthisround.Contains(select.SelectRandom)){
                     if(isUpgradeEnable(select.SelectRandom,selectnum)==true){ 
                         break;
                     }
                 }
-                select.SelectRandom = Random.Range(1,selectpool.Count);
             }
             selectthisround.Add(select.SelectRandom);
-            
             selectnum+=1;
         }
         foreach (string i in selectpool)
@@ -180,7 +185,14 @@ public class LevelSelectController : MonoBehaviour
                 case "BloodExplodeDamage":
                     BloodExplodeState.BloodExplodeDamage+=10f;
                     break;
-
+                case "getLightningStrike":
+                    setLightningStrikeUpgrade();
+                    skillController.setLightningStrike();
+                    LightningStrikeState.LightningStrikeEnable=true;
+                    break;
+                case "LightningStrikeDamage":
+                    LightningStrikeState.LightningStrikedamage+=10f;
+                    break;
             }
     }
     void Addselectrecord(int serialNumber){
@@ -313,7 +325,7 @@ public class LevelSelectController : MonoBehaviour
                     }
                 }
                 else{
-                    return true;
+                    return false;
                 }
             case "getFlameJet":
                 if(FlameJetState.FlameJetEnable){
@@ -369,6 +381,24 @@ public class LevelSelectController : MonoBehaviour
                     else{
                         return false;
                     }
+                case "getLightningStrike":
+                    if(LightningStrikeState.LightningStrikeEnable){
+                        return false; 
+                    }
+                    else{
+                        Selects[selectnum].setSprite(LightningStrikeSprite);
+                        Selects[selectnum].SkillDescript.text="Get Lightning Strike Skill";
+                        return true;
+                    }
+                case "LightningStrikeDamage":
+                    if(LightningStrikeState.LightningStrikeEnable){
+                        Selects[selectnum].setSprite(LightningStrikeSprite);
+                        Selects[selectnum].SkillDescript.text="Lightning Strike +10 Damage";
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
                 default:
                     return false;
         }
@@ -409,5 +439,10 @@ public class LevelSelectController : MonoBehaviour
         selectpool.Add("BloodExplodeDamage");
         if(selectpool.Contains("getBloodExplode"))
             selectpool.Remove("getBloodExplode");
+    }
+    void setLightningStrikeUpgrade(){
+        selectpool.Add("LightningStrikeDamage");
+        if(selectpool.Contains("getLightningStrike"))
+            selectpool.Remove("getBLightningStrike");
     }
 }

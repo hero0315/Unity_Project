@@ -1,12 +1,10 @@
 using UnityEngine;
-using TMPro;
 using System.Collections.Generic;
 public class LightningBlast : MonoBehaviour , Attack
 {
     private List<GameObject> detect = new List<GameObject>();
     GameObject closest;
     [SerializeField]private float basedamage;
-    [SerializeField]private TextMeshPro damageText;
     [SerializeField]Transform chainpoint;
     private GameObject target;
     [SerializeField]int ischained=0;
@@ -44,9 +42,9 @@ public class LightningBlast : MonoBehaviour , Attack
     private void Hitenemy(){
         if(target!=null){
             hitlist.Add(target);
-            target.GetComponent<enemyController>().decreasehealth(lightningblastState.LightningBlastdamage+basedamage);
-            TextMeshPro createText = Instantiate(damageText,new Vector3(target.transform.position.x,target.transform.position.y+0.6f,target.transform.position.z),Quaternion.identity);
-            createText.text=""+(lightningblastState.LightningBlastdamage+basedamage);
+            float damage=lightningblastState.LightningBlastdamage+basedamage;
+            target.GetComponent<enemyController>().decreasehealth(damage);
+            eventController.damageEvent.Invoke(damage,this.transform.position);
             if(ischained<lightningblastState.LightningBlastchainNum){
                 getClosest(chainpoint.transform.position);
                 if(closest!=null){
