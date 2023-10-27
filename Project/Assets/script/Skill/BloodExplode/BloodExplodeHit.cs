@@ -5,7 +5,8 @@ public class BloodExplodeHit : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider){
         if(collider.gameObject.tag=="enemy"){
             float damage=BloodExplodeState.BloodExplodeDamage;
-            eventController.damageEvent.Invoke(damage,this.transform.position);
+            collider.gameObject.GetComponent<enemyController>().decreasehealth(damage);
+            eventController.damageEvent.Invoke(damage,collider.transform.position);
         }
     }
     void Start(){

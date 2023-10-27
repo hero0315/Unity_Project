@@ -4,13 +4,9 @@ using UnityEngine;
 public class playerMove : MonoBehaviour
 {
     [SerializeField]private Animator myAnimator;
-    private SpriteRenderer SpriteRenderer;
+    [SerializeField]private SpriteRenderer SpriteRenderer;
     private Vector3 mousepos;
     [SerializeField]private Camera cam;
-    void Start()
-    {
-        SpriteRenderer = GetComponent<SpriteRenderer>();
-    }
 
     void Update()
     {

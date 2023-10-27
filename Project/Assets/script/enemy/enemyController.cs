@@ -5,7 +5,6 @@ public class enemyController : MonoBehaviour
     [SerializeField]private float damage;
     [SerializeField]private float attackcooldown;
     [SerializeField]private float killexp=0;
-    [SerializeField]private GameObject coin;
     public float monsterhealth;
     private bool damageable=true;
     void Start(){
@@ -30,8 +29,7 @@ public class enemyController : MonoBehaviour
             monsterhealth=originhealth;
             playerState.exp+=killexp;
             UITextController.expEvent.Invoke();
-            GameObject _coin = Instantiate(coin);
-            _coin.transform.position=this.transform.position;
+            eventController.itemDropEvent.Invoke(this.transform.position);
             gameObject.SetActive(false);
             
         }

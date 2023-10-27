@@ -22,7 +22,7 @@ public class FireBallHit : MonoBehaviour , Attack
             if(!hitlist.Contains(collider.gameObject)){
                 hitlist.Add(collider.gameObject);
                 float damage=fireballState.Fireballdamage+basedamage;
-                eventController.damageEvent.Invoke(damage,this.transform.position);
+                eventController.damageEvent.Invoke(damage,collider.transform.position);
                 collider.gameObject.GetComponent<enemyController>().decreasehealth(damage);
                 GameObject _anim=Instantiate(anim,this.transform.position, Quaternion.identity);
                 Destroy(_anim,animDestroySecond);

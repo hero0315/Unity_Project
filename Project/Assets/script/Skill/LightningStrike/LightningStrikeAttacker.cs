@@ -25,6 +25,7 @@ public class LightningStrikeAttacker : MonoBehaviour
             if(Randomobj!=null){
                 Attack(Randomobj);
             }
+            Randomobj=null;
         }
         else if(LightningStrikeState.LightningStrikeEnable&&LightningStrikeState.LightningStrikecooldowning==true){
             skillController.skillImagepool[LightningStrikeNum].fillAmount+= (1/ LightningStrikeState.LightningStrikecastspeed*Time.deltaTime);
@@ -36,7 +37,7 @@ public class LightningStrikeAttacker : MonoBehaviour
     void Attack(GameObject Randomobj){
         setImage();
         float damage=LightningStrikeState.LightningStrikedamage;
-        eventController.damageEvent.Invoke(damage,this.transform.position);
+        eventController.damageEvent.Invoke(damage,Randomobj.transform.position);
         Randomobj.GetComponent<enemyController>().decreasehealth(damage);
         lightningStrikelist[num].transform.position=new Vector3(Randomobj.transform.position.x,Randomobj.transform.position.y-0.3f,0);
         lightningStrikelist[num].SetActive(true);

@@ -44,7 +44,7 @@ public class LightningBlast : MonoBehaviour , Attack
             hitlist.Add(target);
             float damage=lightningblastState.LightningBlastdamage+basedamage;
             target.GetComponent<enemyController>().decreasehealth(damage);
-            eventController.damageEvent.Invoke(damage,this.transform.position);
+            eventController.damageEvent.Invoke(damage,target.transform.position);
             if(ischained<lightningblastState.LightningBlastchainNum){
                 getClosest(chainpoint.transform.position);
                 if(closest!=null){

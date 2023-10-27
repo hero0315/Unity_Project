@@ -9,7 +9,7 @@ public class WaterSplashHit : MonoBehaviour
         if(collider.gameObject.tag=="enemy"){
             if(timer<=0.1f){
                 float damage=watersplashState.WaterSplashdamage;
-                eventController.damageEvent.Invoke(damage,this.transform.position);
+                eventController.damageEvent.Invoke(damage,collider.transform.position);
             }
             else{
                 WaterSplashDot waterSplashDot=collider.gameObject.AddComponent<WaterSplashDot>();

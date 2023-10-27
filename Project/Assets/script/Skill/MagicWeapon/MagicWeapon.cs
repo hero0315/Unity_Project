@@ -10,7 +10,7 @@ public class MagicWeapon : MonoBehaviour , Attack
             if(!damagedlist.Contains(collider.gameObject)){
                 float damage=magicweaponState.MagicWeaponDamage+basedamage;
                 collider.gameObject.GetComponent<enemyController>().decreasehealth(damage);
-                eventController.damageEvent.Invoke(damage,this.transform.position);
+                eventController.damageEvent.Invoke(damage,collider.transform.position);
                 damagedlist.Add(collider.gameObject);
                 StartCoroutine(MagicWeaponDamageable());
                 damagedlist.Remove(collider.gameObject);
