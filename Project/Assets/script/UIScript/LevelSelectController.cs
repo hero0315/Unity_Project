@@ -15,6 +15,7 @@ public class LevelSelectController : MonoBehaviour
     [SerializeField] Sprite WaterSplashSprite;
     [SerializeField] Sprite BloodExplodeSprite;
     [SerializeField] Sprite LightningStrikeSprite;
+    [SerializeField] int SkillSlotleft=5;
     List<string> selectpool=new List<string>();
     [System.Serializable]
     public class Select{
@@ -35,42 +36,49 @@ public class LevelSelectController : MonoBehaviour
         }
         else{
             setFireBallUpgrade();
+            SkillSlotleft-=1;
         }
         if(lightningblastState.LightningBlastEnable==false){
             selectpool.Add("getLightningBlast");
         }
         else{
             setLightningBlastUpgrade();
+            SkillSlotleft-=1;
         }
         if(magicweaponState.MagicWeaponEnable==false){
             selectpool.Add("getMagicWeapon");
         }
         else{
             setMagicWeaponUpgrade();
+            SkillSlotleft-=1;
         }
         if(FlameJetState.FlameJetEnable==false){
             selectpool.Add("getFlameJet");
         }
         else{
             setFlameJetUpgrade();
+            SkillSlotleft-=1;
         }
         if(watersplashState.WaterSplashEnable==false){
             selectpool.Add("getWaterSplash");
         }
         else{
             setWaterSplashUpgrade();
+            SkillSlotleft-=1;
         }
         if(BloodExplodeState.BloodExplodeEnable==false){
             selectpool.Add("getBloodExplode");
         }
         else{
             setBloodExplodeUpgrade();
+            SkillSlotleft-=1;
         }
         if(LightningStrikeState.LightningStrikeEnable==false){
             selectpool.Add("getLightningStrike");
         }
         else{
             setLightningBlastUpgrade();
+            SkillSlotleft-=1;
         }
         this.gameObject.SetActive(false);
     }
@@ -88,10 +96,6 @@ public class LevelSelectController : MonoBehaviour
             }
             selectthisround.Add(select.SelectRandom);
             selectnum+=1;
-        }
-        foreach (string i in selectpool)
-        {
-            Debug.Log(i);
         }
     }
     public void LevelSelect1(){
@@ -117,6 +121,7 @@ public class LevelSelectController : MonoBehaviour
                 case "getFireBall":
                     setFireBallUpgrade();
                     skillController.setFireBall();
+                    SkillSlotleft-=1;
                     fireballState.FireballEnable=true;
                     break;
                 case "FireBallDamage":
@@ -134,6 +139,7 @@ public class LevelSelectController : MonoBehaviour
                 case "getLightningBlast":
                     setLightningBlastUpgrade();
                     skillController.setLightningBlast();
+                    SkillSlotleft-=1;
                     lightningblastState.LightningBlastEnable=true;
                     break;
                 case "LightningBlastDamage":
@@ -154,6 +160,7 @@ public class LevelSelectController : MonoBehaviour
                     spinWeapon.GetComponent<SpinWeapon>().addWeapon();
                     magicweaponState.MagicWeaponEnable=true;
                     spinWeapon.SetActive(true);
+                    SkillSlotleft-=1;
                     break;
                 case "MagicWeaponDamage":
                     magicweaponState.MagicWeaponDamage+=10f;
@@ -163,6 +170,7 @@ public class LevelSelectController : MonoBehaviour
                     break;
                 case "getFlameJet":
                     setFlameJetUpgrade();
+                    SkillSlotleft-=1;
                     skillController.setFlameJet();
                     FlameJetState.FlameJetEnable=true;
                     break;
@@ -172,6 +180,7 @@ public class LevelSelectController : MonoBehaviour
                 case "getWaterSplash":
                     setWaterSplashUpgrade();
                     skillController.setWaterSplash();
+                    SkillSlotleft-=1;
                     watersplashState.WaterSplashEnable=true;
                     break;
                 case "WaterSplashDamage":
@@ -179,6 +188,7 @@ public class LevelSelectController : MonoBehaviour
                     break;
                 case "getBloodExplode":
                     setBloodExplodeUpgrade();
+                    SkillSlotleft-=1;
                     skillController.setBloodExplode();
                     BloodExplodeState.BloodExplodeEnable=true;
                     break;
@@ -188,6 +198,7 @@ public class LevelSelectController : MonoBehaviour
                 case "getLightningStrike":
                     setLightningStrikeUpgrade();
                     skillController.setLightningStrike();
+                    SkillSlotleft-=1;
                     LightningStrikeState.LightningStrikeEnable=true;
                     break;
                 case "LightningStrikeDamage":
@@ -328,7 +339,7 @@ public class LevelSelectController : MonoBehaviour
                     return false;
                 }
             case "getFlameJet":
-                if(FlameJetState.FlameJetEnable){
+                if(FlameJetState.FlameJetEnable||SkillSlotleft<=0){
                    return false; 
                 }
                 else{
@@ -337,7 +348,7 @@ public class LevelSelectController : MonoBehaviour
                     return true;
                 }
             case "FlameJetDamage":
-                if(FlameJetState.FlameJetEnable){
+                if(FlameJetState.FlameJetEnable&&SkillSlotleft>0){
                     Selects[selectnum].setSprite(FlameJetSprite);
                     Selects[selectnum].SkillDescript.text="Flame Jet +10 Damage";
                     return true;
@@ -346,7 +357,7 @@ public class LevelSelectController : MonoBehaviour
                     return false;
                 }
             case "getWaterSplash":
-                if(watersplashState.WaterSplashEnable){
+                if(watersplashState.WaterSplashEnable||SkillSlotleft<=0){
                    return false; 
                 }
                 else{
@@ -355,7 +366,7 @@ public class LevelSelectController : MonoBehaviour
                     return true;
                 }
                 case "WaterSplashDamage":
-                if(watersplashState.WaterSplashEnable){
+                if(watersplashState.WaterSplashEnable&&SkillSlotleft>0){
                     Selects[selectnum].setSprite(WaterSplashSprite);
                     Selects[selectnum].SkillDescript.text="Water Splash +5 Damage";
                     return true;
@@ -364,7 +375,7 @@ public class LevelSelectController : MonoBehaviour
                     return false;
                 }
                 case "getBloodExplode":
-                    if(BloodExplodeState.BloodExplodeEnable){
+                    if(BloodExplodeState.BloodExplodeEnable||SkillSlotleft<=0){
                         return false; 
                     }
                     else{
@@ -373,7 +384,7 @@ public class LevelSelectController : MonoBehaviour
                         return true;
                     }
                 case "BloodExplodeDamage":
-                    if(BloodExplodeState.BloodExplodeEnable){
+                    if(BloodExplodeState.BloodExplodeEnable&&SkillSlotleft>0){
                         Selects[selectnum].setSprite(BloodExplodeSprite);
                         Selects[selectnum].SkillDescript.text="Blood Explode +10 Damage";
                         return true;
@@ -382,7 +393,7 @@ public class LevelSelectController : MonoBehaviour
                         return false;
                     }
                 case "getLightningStrike":
-                    if(LightningStrikeState.LightningStrikeEnable){
+                    if(LightningStrikeState.LightningStrikeEnable||SkillSlotleft<=0){
                         return false; 
                     }
                     else{
