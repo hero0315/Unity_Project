@@ -8,6 +8,7 @@ public class eventController : MonoBehaviour
     [SerializeField]private TextMeshPro coinpop;
     public static UnityEvent pauseEvent;
     public static UnityEvent depauseEvent;
+    public static UnityEvent killEvent;
     public static UnityEvent<float,Vector3> damageEvent;
     public static UnityEvent<Vector3> coinDropEvent;
     public static UnityEvent<Vector3> itemDropEvent;
@@ -50,6 +51,10 @@ public class eventController : MonoBehaviour
         if (eatcoinEvent == null)
             eatcoinEvent = new UnityEvent<Vector3>();
         eatcoinEvent.AddListener(eatcoin);
+        if (killEvent == null)
+            killEvent = new UnityEvent();
+        killEvent.AddListener(kill);
+
     }
 
     public void pause(){
@@ -63,6 +68,9 @@ public class eventController : MonoBehaviour
     public void damage(float damage,Vector3 pos){
         TextMeshPro createText = Instantiate(damageText,new Vector3(pos.x,pos.y+0.6f,pos.z),Quaternion.identity);
         createText.text=""+(damage);
+    }
+    public void kill(){
+        playerState.killnumber+=1;
     }
     public void coinDrop(Vector3 pos){
         GameObject _coin = Instantiate(coin,pos,Quaternion.identity,coinbag);

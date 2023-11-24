@@ -38,4 +38,7 @@ public class Timer : MonoBehaviour
             }
         }
     }
+    public float gettime(){
+        return time;
+    }
 }

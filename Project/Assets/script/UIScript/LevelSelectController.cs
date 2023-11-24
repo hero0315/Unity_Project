@@ -15,7 +15,7 @@ public class LevelSelectController : MonoBehaviour
     [SerializeField] Sprite WaterSplashSprite;
     [SerializeField] Sprite BloodExplodeSprite;
     [SerializeField] Sprite LightningStrikeSprite;
-    [SerializeField] int SkillSlotleft=5;
+    [SerializeField] int SkillSlotleft=4;
     List<string> selectpool=new List<string>();
     [System.Serializable]
     public class Select{

@@ -1,7 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Net;
+using System.IO;
 using UnityEngine.Events;
+using System;
 
 public class UITextController : MonoBehaviour
 {
@@ -14,10 +17,13 @@ public class UITextController : MonoBehaviour
     [SerializeField]private GameObject LevelSelect;
     [SerializeField]private GameObject restartbutton;
     [SerializeField]private TextMeshProUGUI coinText;
+    [SerializeField]private TextMeshProUGUI timer;
     public static UnityEvent expEvent;
     public static UnityEvent hpEvent;
     private int[]level_need_exp;
     void Start(){    
+        playerState.playername = GameObject.Find("PassData").GetComponent<PassData>().playerName;
+        Debug.Log(playerState.playername);
         if(playerState.isrestart==false){
             PlayerData data = SaveSystem.LoadPlayerdata();
             playerState.level=data.level;
@@ -69,10 +75,48 @@ public class UITextController : MonoBehaviour
         lifeSlider.value=playerState.playerHealth;
         lifeText.text=playerState.playerHealth+" / "+maxHealth;
         if(playerState.playerHealth<=0){
-            playerState.canEsc=false;
-            eventController.pauseEvent.Invoke();
-            restartbutton.SetActive(true);
-            coinText.text=""+playerState.coin;
+                died();
             }
     }
+    private void died(){
+        playerState.canEsc=false;
+        eventController.pauseEvent.Invoke();
+        restartbutton.SetActive(true);
+        coinText.text=""+playerState.coin;
+        updateData();
+    }
+    private void updateData(){
+        string databaseURL = "https://game-ab172-default-rtdb.firebaseio.com/";
+        string url = databaseURL + "Record/"+playerState.playername+"/"+DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss")+".json";
+        string playerData = "{\"time\": \"" + timer.text + "\",\"money\": " + playerState.coin + ",\"killnumber\": " + playerState.killnumber + ",\"Level\": " + playerState.level +"}";
+        Debug.Log(url);
+        Debug.Log(playerData);
+        /*void putResponse(string url,string playerData){
+        if (!string.IsNullOrEmpty(databaseSecret))
+        {
+            url += "?auth=" + databaseSecret;
+        }
+        */
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+        request.Method = "PUT";
+        request.ContentType = "application/json";
+        byte[] data = System.Text.Encoding.UTF8.GetBytes(playerData);
+        request.ContentLength = data.Length;
+        using (Stream requestStream = request.GetRequestStream())
+        {
+            requestStream.Write(data, 0, data.Length);
+        }
+        using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+        {
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                Debug.Log("Data written successfully.");
+            }
+            else
+            {
+                Debug.LogError("Error: " + response.StatusCode);
+            }
+        }
+    }
 }
+

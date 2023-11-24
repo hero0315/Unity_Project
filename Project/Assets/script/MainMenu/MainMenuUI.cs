@@ -3,12 +3,19 @@ using UnityEngine;
 using TMPro;
 using System.Net;
 using System.IO;
+using System.Linq;
+using System;
 public class MainMenuUI : MonoBehaviour
 {
     private string databaseURL = "https://game-ab172-default-rtdb.firebaseio.com/";
     private string databaseSecret = "";
     public TextMeshProUGUI nametext;
     public TextMeshProUGUI passwordtext; 
+    public TextMeshProUGUI warningtext; 
+    public GameObject PlayButton;
+    public GameObject RegisterButton;
+    public GameObject LoginButton;
+    public GameObject PassData;
     public void startgame(){
         SceneManager.LoadScene("fightingScenes");
     }
@@ -35,6 +42,7 @@ public class MainMenuUI : MonoBehaviour
                     return false;
                 }
                 else{
+                    warningtext.text="Account Name Exist";
                     Debug.Log("帳號已存在");
                     return true;
                 }
@@ -101,12 +109,8 @@ public class MainMenuUI : MonoBehaviour
     }
     private string Deletelast(string s){
         string text = string.Empty;
-        for(int n=0;n<s.Length-1;n++)
-        {
-           if(s[n].ToString()!=""&&s[n].ToString()!=" "){
-                text+=s[n];
-           }
-        }
+        text=s.Substring(0,s.Length-1);
+        Debug.Log(text);
         return text;
     }
     public void login(){
@@ -117,12 +121,18 @@ public class MainMenuUI : MonoBehaviour
         if(playerinfo!=null){
             if(playerinfo.password==pas){
                 Debug.Log("登入成功");
+                PassData.GetComponent<PassData>().setName(name);
+                PlayButton.SetActive(true);
+                RegisterButton.SetActive(false);
+                LoginButton.SetActive(false);
             }
             else{
+                warningtext.text="Wrong Password Or Account Name";
                 Debug.Log("帳號或密碼錯誤");
             }
         }
         else{
+                warningtext.text="Account Name doesn't";
                 Debug.Log("帳號不存在");
             }
     }
@@ -131,18 +141,21 @@ public class MainMenuUI : MonoBehaviour
         string pas=Deletelast(passwordtext.text);
         string url = databaseURL + "Users/"+name+".json";
         bool ok=true;
-        if(name.Length>10||name.Length<4){
+        if(name.Length>10 || name.Length<4 && name.All(Char.IsDigit) && name.All(Char.IsLetter)){
+            warningtext.text="Account Name must be English or Number and between 4~10 characters";
             Debug.Log("名稱必須為英文且介於4~10個字");
             ok=false;
         }
-        if(pas.Length>10||pas.Length<4){
+        else if(pas.Length>10 || pas.Length<4 && pas.All(Char.IsDigit) && pas.All(Char.IsLetter)){
+            warningtext.text="Password must be English or Number and between 4~10 characters";
             Debug.Log("密碼必須為英文且介於4~10個字");
             ok=false;
         }
         if(ok==true){
-            string jsonData = "{\"name\": \""+name+"\",\"password\": "+pas+"}";
+            string jsonData = "{\"name\": \""+name+"\",\"password\": \""+pas+"\"}";
             if(!existResponse(url,jsonData)){
                 putResponse(url,jsonData);
+                warningtext.text="Registration Success";
                 Debug.Log("成功註冊");
             }
         }

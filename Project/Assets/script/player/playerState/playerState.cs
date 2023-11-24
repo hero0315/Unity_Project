@@ -1,5 +1,6 @@
 public class playerState
 {
+    public static string playername;
     public static float playerHealth=100f;
     public static float playerCastspeed=1f;
     public static float playerMovespeed=5f;
@@ -9,7 +10,8 @@ public class playerState
     public static bool canplayermove=true;
     public static bool isrestart=false;
     public static bool canEsc=true;
-    public static float coin=0;
+    public static int coin=0;
+    public static int killnumber=0;
     public static void restartplayer(){
         playerHealth=100f;
         playerCastspeed=1f;
@@ -21,6 +23,7 @@ public class playerState
         isrestart=true;
         canEsc=true;
         coin=0;
+        killnumber=0;
     }
     public static void restartAll(){
         fireballState.restart();

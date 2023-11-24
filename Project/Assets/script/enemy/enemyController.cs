@@ -30,6 +30,7 @@ public class enemyController : MonoBehaviour
             playerState.exp+=killexp;
             UITextController.expEvent.Invoke();
             eventController.itemDropEvent.Invoke(this.transform.position);
+            eventController.killEvent.Invoke();
             gameObject.SetActive(false);
             
         }

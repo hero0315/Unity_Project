@@ -47,7 +47,7 @@ public class SkillController : MonoBehaviour
         skillImagepool.Add(skillImage_4);
         //setPlagueSlash();
         //setWaterSplash();
-        setBloodExplode();
+        //setBloodExplode();
         //setLightningStrike();
     }
     public void setFireBall(){
