@@ -37,6 +37,7 @@ public class UIButton : MonoBehaviour
         Setting.SetActive(true);
     }
     public void mainmenu(){
+        playerState.restartAll();
         eventController.depauseEvent.Invoke();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene("MainMenu");

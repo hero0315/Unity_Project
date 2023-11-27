@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class LevelSelectController : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class LevelSelectController : MonoBehaviour
     [SerializeField] Sprite LightningStrikeSprite;
     [SerializeField] int SkillSlotleft=4;
     List<string> selectpool=new List<string>();
+    [SerializeField]
+    List<GameObject> selectobjs=new List<GameObject>();
     [System.Serializable]
     public class Select{
         [SerializeField]private GameObject SelectSkill;
@@ -80,7 +83,39 @@ public class LevelSelectController : MonoBehaviour
             setLightningBlastUpgrade();
             SkillSlotleft-=1;
         }
-        this.gameObject.SetActive(false);
+    }
+    public void levelup(){
+        setSelectsActive();
+        StartCoroutine(playstartanim());
+    }
+    IEnumerator playstartanim(){
+        int i = 1;
+        foreach(GameObject obj in selectobjs){
+            obj.SetActive(true);
+            obj.GetComponent<Animator>().enabled=true;
+            Debug.Log("第"+i+"個播放");
+            i++;
+            yield return new WaitForSecondsRealtime(0.25f);
+            obj.GetComponent<Button>().interactable=true;
+        }
+        StopCoroutine(playstartanim());
+    }
+    IEnumerator playstopanim(int n){
+        selectobjs[n].GetComponent<Animator>().SetBool("Select",true);
+        yield return new WaitForSecondsRealtime(0.2f);
+        foreach(GameObject obj in selectobjs){
+            obj.GetComponent<Animator>().SetTrigger("Selected");
+            obj.GetComponent<Button>().interactable=false;
+        }
+        yield return new WaitForSecondsRealtime(0.4f);
+        foreach(GameObject obj in selectobjs){
+            obj.GetComponent<Animator>().enabled=false;
+            obj.SetActive(false);
+        }
+        selectobjs[n].transform.localScale=new Vector3(1,1,1);
+        selectobjs[n].transform.rotation=new Quaternion(0,0,0,0);
+        eventController.depauseEvent.Invoke();
+        StopCoroutine(playstopanim(n));
     }
     public void setSelectsActive(){
         List<int> selectthisround=new List<int>();
@@ -101,20 +136,17 @@ public class LevelSelectController : MonoBehaviour
     public void LevelSelect1(){
         UpgradeSkill(Selects[0].SelectRandom);
         Addselectrecord(Selects[0].SelectRandom);
-        eventController.depauseEvent.Invoke();
-        LevelSelect.SetActive(false);
+        StartCoroutine(playstopanim(0));
     }
     public void LevelSelect2(){
         UpgradeSkill(Selects[1].SelectRandom);
         Addselectrecord(Selects[1].SelectRandom);
-        eventController.depauseEvent.Invoke();
-        LevelSelect.SetActive(false);
+        StartCoroutine(playstopanim(1));
     }
     public void LevelSelect3(){
         UpgradeSkill(Selects[2].SelectRandom);
         Addselectrecord(Selects[2].SelectRandom);
-        eventController.depauseEvent.Invoke();
-        LevelSelect.SetActive(false);
+        StartCoroutine(playstopanim(2));
     }
     void UpgradeSkill(int selectRandom){
             switch (selectpool[selectRandom]){
