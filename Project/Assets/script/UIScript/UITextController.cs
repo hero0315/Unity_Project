@@ -15,12 +15,17 @@ public class UITextController : MonoBehaviour
     [SerializeField]private TextMeshProUGUI lifeText;
     [SerializeField]private Slider lifeSlider;
     [SerializeField]private GameObject LevelSelect;
-    [SerializeField]private GameObject restartbutton;
+    [SerializeField]private GameObject DiedSelect;
     [SerializeField]private TextMeshProUGUI coinText;
     [SerializeField]private TextMeshProUGUI timer;
     public static UnityEvent expEvent;
     public static UnityEvent hpEvent;
     private int[]level_need_exp;
+    public class Record{
+        public int totalmoney;
+        public int totalkillnumber;
+        public float totaltime;
+    }
     void Start(){    
         playerState.playername = GameObject.Find("PassData").GetComponent<PassData>().playerName;
         Debug.Log(playerState.playername);
@@ -35,7 +40,7 @@ public class UITextController : MonoBehaviour
         if (hpEvent == null)
             hpEvent = new UnityEvent();
         hpEvent.AddListener(getdamaged);
-        level_need_exp = new int[] { 10,100,750,800,900,1200,1700,2650,4000,6000,8750,12350,17000,22850,30050,38850,49400,61850,76500,93550,113150,135650,161250,190200,222750,259250,299950,345100,395100,450200,510700,577050,649500,728400,814150,907150,1007750,1116350,1233350,1359150,1494200,1638900,1793700,1959100,2135500,2323400,2523250,2735600,2960850,3199650,3452400,3719650,4001950,4299850,4613950,4944750,5292850,5658850,6043300,6446850,6870100,7313650,7778200,8264350,8772700,9304000,9858900,10438050,11042200,11671950,12328100,13011350,13722450,14462050,15231000,16030000,16859850,17721300,18615150,19542200,20503250,21499150,22530700,23598700,24704000,25847500,27030050,28252550,29515800,30820800,32168350,33559400,34994900,36475800,38002950,39577350,41200000,42871800,44593750,46366850,48192150};
+        level_need_exp = new int[] { 750,800,900,1200,1700,2650,4000,6000,8750,12350,17000,22850,30050,38850,49400,61850,76500,93550,113150,135650,161250,190200,222750,259250,299950,345100,395100,450200,510700,577050,649500,728400,814150,907150,1007750,1116350,1233350,1359150,1494200,1638900,1793700,1959100,2135500,2323400,2523250,2735600,2960850,3199650,3452400,3719650,4001950,4299850,4613950,4944750,5292850,5658850,6043300,6446850,6870100,7313650,7778200,8264350,8772700,9304000,9858900,10438050,11042200,11671950,12328100,13011350,13722450,14462050,15231000,16030000,16859850,17721300,18615150,19542200,20503250,21499150,22530700,23598700,24704000,25847500,27030050,28252550,29515800,30820800,32168350,33559400,34994900,36475800,38002950,39577350,41200000,42871800,44593750,46366850,48192150};
         //level_need_exp = new int[] { 50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,750,800,900,1200,1700,2650,4000,6000,8750,12350,17000,22850,30050,38850,49400,61850,76500,93550,113150,135650,161250,190200,222750,259250,299950,345100,395100,450200,510700,577050,649500,728400,814150,907150,1007750,1116350,1233350,1359150,1494200,1638900,1793700,1959100,2135500,2323400,2523250,2735600,2960850,3199650,3452400,3719650,4001950,4299850,4613950,4944750,5292850,5658850,6043300,6446850,6870100,7313650,7778200,8264350,8772700,9304000,9858900,10438050,11042200,11671950,12328100,13011350,13722450,14462050,15231000,16030000,16859850,17721300,18615150,19542200,20503250,21499150,22530700,23598700,24704000,25847500,27030050,28252550,29515800,30820800,32168350,33559400,34994900,36475800,38002950,39577350,41200000,42871800,44593750,46366850,48192150};
         maxHealth=playerState.playerHealth;
         expText.text="0 / "+level_need_exp[playerState.level-1];
@@ -81,9 +86,10 @@ public class UITextController : MonoBehaviour
     private void died(){
         playerState.canEsc=false;
         eventController.pauseEvent.Invoke();
-        restartbutton.SetActive(true);
+        DiedSelect.SetActive(true);
         coinText.text=""+playerState.coin;
         updateData();
+        updateTotalData();
     }
     private void updateData(){
         string databaseURL = "https://game-ab172-default-rtdb.firebaseio.com/";
@@ -91,12 +97,6 @@ public class UITextController : MonoBehaviour
         string playerData = "{\"time\": \"" + timer.text + "\",\"money\": " + playerState.coin + ",\"killnumber\": " + playerState.killnumber + ",\"Level\": " + playerState.level +"}";
         Debug.Log(url);
         Debug.Log(playerData);
-        /*void putResponse(string url,string playerData){
-        if (!string.IsNullOrEmpty(databaseSecret))
-        {
-            url += "?auth=" + databaseSecret;
-        }
-        */
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
         request.Method = "PUT";
         request.ContentType = "application/json";
@@ -107,6 +107,35 @@ public class UITextController : MonoBehaviour
             requestStream.Write(data, 0, data.Length);
         }
         using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+        {
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                Debug.Log("Data written successfully.");
+            }
+            else
+            {
+                Debug.LogError("Error: " + response.StatusCode);
+            }
+        }
+    }
+    private void updateTotalData(){
+        string databaseURL = "https://game-ab172-default-rtdb.firebaseio.com/";
+        string url = databaseURL + "Record/"+playerState.playername+"/"+"TotalRecord"+".json";
+        PassData passdata=GameObject.Find("PassData").GetComponent<PassData>();
+        passdata.totalcoin+=playerState.coin;
+        passdata.totalkill+=playerState.killnumber;
+        passdata.totaltime+=Timer.time;
+        string jsonData ="{\"totaltime\": \"" + passdata.totaltime + "\",\"totalmoney\": " + passdata.totalcoin + ",\"totalkillnumber\": " + passdata.totalkill+"}";
+        HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(url);
+        request2.Method = "PUT";
+        request2.ContentType = "application/json";
+        byte[] data = System.Text.Encoding.UTF8.GetBytes(jsonData);
+        request2.ContentLength = data.Length;
+        using (Stream requestStream = request2.GetRequestStream())
+        {
+            requestStream.Write(data, 0, data.Length);
+        }
+        using (HttpWebResponse response = (HttpWebResponse)request2.GetResponse())
         {
             if (response.StatusCode == HttpStatusCode.OK)
             {

@@ -5,6 +5,7 @@ public class UIButton : MonoBehaviour
     [SerializeField] GameObject menu;
     [SerializeField] GameObject Setting;
     [SerializeField] GameObject Savesystem;
+    [SerializeField] GameObject DiedSelect;
     private bool ismenuopen=false;
     void Update(){
         if(Input.GetKeyDown("escape")){
@@ -43,12 +44,16 @@ public class UIButton : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
     public void restartgame(){
-        this.gameObject.SetActive(false);
+        DiedSelect.SetActive(false);
         eventController.depauseEvent.Invoke();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene("fightingScenes");
         playerState.restartAll();
-        SaveSystem.SavePlayerdata();
     }
-    
+    public void toUpgradePanel(){
+        DiedSelect.SetActive(false);
+        eventController.depauseEvent.Invoke();
+        playerState.restartAll();
+        SceneManager.LoadScene("UpgradeScenes");
+    }
 }

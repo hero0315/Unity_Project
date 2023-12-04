@@ -874,7 +874,7 @@ MonoBehaviour:
   PlayButton: {fileID: 684165947}
   RegisterButton: {fileID: 813097303}
   LoginButton: {fileID: 1360108733}
-  PassData: {fileID: 1002726071}
+  passData: {fileID: 1002726071}
 --- !u!1 &684165947
 GameObject:
   m_ObjectHideFlags: 0
@@ -1478,6 +1478,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: 
+  totalkill: 0
+  totalcoin: 0
+  totaltime: 0
 --- !u!4 &1002726073
 Transform:
   m_ObjectHideFlags: 0
