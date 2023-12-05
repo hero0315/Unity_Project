@@ -45,10 +45,7 @@ public class SkillController : MonoBehaviour
         skillImagepool.Add(skillImage_2);
         skillImagepool.Add(skillImage_3);
         skillImagepool.Add(skillImage_4);
-        //setPlagueSlash();
-        //setWaterSplash();
-        //setBloodExplode();
-        //setLightningStrike();
+        setcastspeed();
     }
     public void setFireBall(){
         int num=0;
@@ -198,5 +195,15 @@ public class SkillController : MonoBehaviour
                 skillImage_4.GetComponent<CanvasGroup>().interactable=true;
                 break;
         }
+    }
+    public void setcastspeed(){
+        BloodExplodeState.BloodExplodecooldown*=playerState.playerCoolDownRecover;
+        fireballState.Fireballcastspeed*=playerState.playerCoolDownRecover;
+        FlameJetState.FlameJetcooldown*=playerState.playerCoolDownRecover;
+        LightningStrikeState.LightningStrikecastspeed*=playerState.playerCoolDownRecover;
+        lightningblastState.LightningBlastcastspeed*=playerState.playerCoolDownRecover;
+        magicweaponState.MagicWeaponCoolDown*=playerState.playerCoolDownRecover;
+        plagueslashState.PlagueSlashcooldown*=playerState.playerCoolDownRecover;
+        watersplashState.WaterSplashcastspeed*=playerState.playerCoolDownRecover;
     }
 }

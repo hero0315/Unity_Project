@@ -7,8 +7,10 @@ public class playerController : MonoBehaviour
     [SerializeField]private float originmovespeed;
     [SerializeField]private float origincastspeed;
     void Awake(){
+        PassData passdata = GameObject.Find("PassData").GetComponent<PassData>();
         setmovespeed(originmovespeed);
-        setcastspeed(origincastspeed);
+        setCoolDownRecover(1*(1+(passdata.CooldownRecover/100)));
+        sethealth(100+passdata.HealthUpgrade*10);
     }
     
     public float setmovespeed(float movespeed){
@@ -16,9 +18,9 @@ public class playerController : MonoBehaviour
         playerState.playerMovespeed=movespeed;
         return temp;
     }
-    public float setcastspeed(float castspeed){
-        float temp=playerState.playerCastspeed;
-        playerState.playerCastspeed=castspeed;
+    public float setCoolDownRecover(float castspeed){
+        float temp=playerState.playerCoolDownRecover;
+        playerState.playerCoolDownRecover=castspeed;
         return temp;
     }
     public float sethealth(float health){

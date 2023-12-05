@@ -23,11 +23,25 @@ public class MainMenuUI : MonoBehaviour
         public string name;
         public string password;
     }
+    [System.Serializable]
     public class Record{
         public int totalmoney;
         public int totalkillnumber;
         public float totaltime;
+        public int totalDiedTimes;
+        public int totalmoneyspend;
+        public int totallevelTimes;
+        public int totalitemget;
+        public UpgradeRecord upgradeRecord;
+        public String getUgRecord(){
+            return JsonUtility.ToJson(upgradeRecord);
+        }
     }
+    [System.Serializable]
+    public class UpgradeRecord{
+            public int HealthUpgrade;
+            public float CoolDownRecover;
+        }
     private bool existResponse(string url,int type){
         if (!string.IsNullOrEmpty(databaseSecret))
         {
@@ -42,7 +56,6 @@ public class MainMenuUI : MonoBehaviour
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 string data = reader.ReadToEnd();
-                Debug.Log(data);
                 if(data=="null"){
                     return false;
                 }
@@ -181,10 +194,17 @@ public class MainMenuUI : MonoBehaviour
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     string data = reader.ReadToEnd();
+                    Debug.Log(data);
                     Record record=JsonUtility.FromJson<Record>(data);
                     passData.GetComponent<PassData>().setcoin(record.totalmoney);
                     passData.GetComponent<PassData>().setkill(record.totalkillnumber);
                     passData.GetComponent<PassData>().settime(record.totaltime);
+                    passData.GetComponent<PassData>().setdied(record.totalDiedTimes);
+                    passData.GetComponent<PassData>().setlevelup(record.totallevelTimes);
+                    passData.GetComponent<PassData>().setitem(record.totalitemget);
+                    passData.GetComponent<PassData>().setmoneyspend(record.totalmoneyspend);
+                    passData.GetComponent<PassData>().setHealthUpgrade(record.upgradeRecord.HealthUpgrade);
+                    passData.GetComponent<PassData>().setCoolDownRecover(record.upgradeRecord.CoolDownRecover);
                 }
                 else{
                     Debug.Log("totalreord下載失敗");
@@ -192,7 +212,9 @@ public class MainMenuUI : MonoBehaviour
             }
         }
         else{
-            string jsonData ="{\"totaltime\": \"" + "0" + "\",\"totalmoney\": " + "0" + ",\"totalkillnumber\": " + "0"+"}";
+            string jsonData ="{\"totaltime\": \"" + 0 + "\",\"totalmoney\": " + 0 + ",\"totalkillnumber\": " + 0+",\"totalDiedTimes\": " + 0+
+        ",\"totallevelTimes\": " +0+",\"totalmoneyspend\": " +0+",\"totalitemget\": " +0+",\"upgradeRecord\": {\"HealthUpgrade\": "+0+",\"CoolDownRecover\": "+0+"}"+"}";
+            Debug.Log(jsonData);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "PUT";
             request.ContentType = "application/json";
@@ -203,16 +225,16 @@ public class MainMenuUI : MonoBehaviour
                 requestStream.Write(data, 0, data.Length);
             }
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+        {
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    Debug.Log("Data written successfully.");
-                }
-                else
-                {
-                    Debug.LogError("Error: " + response.StatusCode);
-                }
+                Debug.Log("Data written successfully.");
             }
+            else
+            {
+                Debug.LogError("Error: " + response.StatusCode);
+            }
+        }
         }
     }
     

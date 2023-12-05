@@ -32,14 +32,16 @@ public class LevelSelectController : MonoBehaviour
     }
     [SerializeField]
     List<Select> Selects = new List<Select>();
-    Dictionary<string, int> selectRecord=new Dictionary<string, int>();
+    public static Dictionary<string, int> selectRecord=new Dictionary<string, int>();
     void Start(){
+        selectRecord.Clear();
         if(fireballState.FireballEnable==false){
             selectpool.Add("getFireBall");
         }
         else{
             setFireBallUpgrade();
             SkillSlotleft-=1;
+            selectRecord.Add("getFireBall",1);
         }
         if(lightningblastState.LightningBlastEnable==false){
             selectpool.Add("getLightningBlast");
@@ -47,6 +49,7 @@ public class LevelSelectController : MonoBehaviour
         else{
             setLightningBlastUpgrade();
             SkillSlotleft-=1;
+            selectRecord.Add("getLightningBlast",1);
         }
         if(magicweaponState.MagicWeaponEnable==false){
             selectpool.Add("getMagicWeapon");
@@ -54,6 +57,7 @@ public class LevelSelectController : MonoBehaviour
         else{
             setMagicWeaponUpgrade();
             SkillSlotleft-=1;
+            selectRecord.Add("getMagicWeapon",1);
         }
         if(FlameJetState.FlameJetEnable==false){
             selectpool.Add("getFlameJet");
@@ -61,6 +65,7 @@ public class LevelSelectController : MonoBehaviour
         else{
             setFlameJetUpgrade();
             SkillSlotleft-=1;
+            selectRecord.Add("getFlameJet",1);
         }
         if(watersplashState.WaterSplashEnable==false){
             selectpool.Add("getWaterSplash");
@@ -68,6 +73,7 @@ public class LevelSelectController : MonoBehaviour
         else{
             setWaterSplashUpgrade();
             SkillSlotleft-=1;
+            selectRecord.Add("getWaterSplash",1);
         }
         if(BloodExplodeState.BloodExplodeEnable==false){
             selectpool.Add("getBloodExplode");
@@ -75,6 +81,7 @@ public class LevelSelectController : MonoBehaviour
         else{
             setBloodExplodeUpgrade();
             SkillSlotleft-=1;
+            selectRecord.Add("getBloodExplode",1);
         }
         if(LightningStrikeState.LightningStrikeEnable==false){
             selectpool.Add("getLightningStrike");
@@ -82,6 +89,7 @@ public class LevelSelectController : MonoBehaviour
         else{
             setLightningBlastUpgrade();
             SkillSlotleft-=1;
+            selectRecord.Add("getLightningStrike",1);
         }
     }
     public void levelup(){
@@ -93,7 +101,6 @@ public class LevelSelectController : MonoBehaviour
         foreach(GameObject obj in selectobjs){
             obj.SetActive(true);
             obj.GetComponent<Animator>().enabled=true;
-            Debug.Log("第"+i+"個播放");
             i++;
             yield return new WaitForSecondsRealtime(0.25f);
             obj.GetComponent<Button>().interactable=true;
@@ -134,19 +141,34 @@ public class LevelSelectController : MonoBehaviour
         }
     }
     public void LevelSelect1(){
-        UpgradeSkill(Selects[0].SelectRandom);
         Addselectrecord(Selects[0].SelectRandom);
+        UpgradeSkill(Selects[0].SelectRandom);
         StartCoroutine(playstopanim(0));
+        string upgradeData="";
+        foreach(string SkillUpgradeRecord in LevelSelectController.selectRecord.Keys){
+            upgradeData+=SkillUpgradeRecord+"      "+LevelSelectController.selectRecord[SkillUpgradeRecord];
+        }
+        Debug.Log(upgradeData);
     }
     public void LevelSelect2(){
-        UpgradeSkill(Selects[1].SelectRandom);
         Addselectrecord(Selects[1].SelectRandom);
+        UpgradeSkill(Selects[1].SelectRandom);
         StartCoroutine(playstopanim(1));
+        string upgradeData="";
+        foreach(string SkillUpgradeRecord in LevelSelectController.selectRecord.Keys){
+            upgradeData+=SkillUpgradeRecord+"      "+LevelSelectController.selectRecord[SkillUpgradeRecord];
+        }
+        Debug.Log(upgradeData);
     }
     public void LevelSelect3(){
-        UpgradeSkill(Selects[2].SelectRandom);
         Addselectrecord(Selects[2].SelectRandom);
+        UpgradeSkill(Selects[2].SelectRandom);
         StartCoroutine(playstopanim(2));
+        string upgradeData="";
+        foreach(string SkillUpgradeRecord in LevelSelectController.selectRecord.Keys){
+            upgradeData+=SkillUpgradeRecord+" "+LevelSelectController.selectRecord[SkillUpgradeRecord]+"  ";
+        }
+        Debug.Log(upgradeData);
     }
     void UpgradeSkill(int selectRandom){
             switch (selectpool[selectRandom]){
@@ -249,7 +271,7 @@ public class LevelSelectController : MonoBehaviour
     bool isUpgradeEnable(int UpgradeNum,int selectnum){
         switch (selectpool[UpgradeNum]){
             case "getFireBall":
-                if(fireballState.FireballEnable==true){
+                if(fireballState.FireballEnable==true||SkillSlotleft<=0){
                     return false;
                 }
                 else{
@@ -303,7 +325,7 @@ public class LevelSelectController : MonoBehaviour
                     return false;
                 }
             case "getLightningBlast":
-                if(lightningblastState.LightningBlastEnable==true){
+                if(lightningblastState.LightningBlastEnable==true||SkillSlotleft<=0){
                    return false; 
                 }
                 else{
@@ -339,7 +361,7 @@ public class LevelSelectController : MonoBehaviour
                     return false;
                 }
             case "getMagicWeapon":
-                if(magicweaponState.MagicWeaponEnable==true){
+                if(magicweaponState.MagicWeaponEnable==true||SkillSlotleft<=0){
                    return false; 
                 }
                 else{
