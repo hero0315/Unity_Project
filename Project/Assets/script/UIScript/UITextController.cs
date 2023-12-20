@@ -97,7 +97,7 @@ public class UITextController : MonoBehaviour
             }
         }
         string databaseURL = "https://game-ab172-default-rtdb.firebaseio.com/";
-        string url = databaseURL + "Record/"+playerState.playername+"/"+DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss")+".json";
+        string url = databaseURL + "Record/"+playerState.playername+"/"+DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")+".json";
         string playerData = "{\"time\": \"" + timer.text + "\",\"money\": " + playerState.coin + ",\"killnumber\": " + playerState.killnumber + ",\"Level\": " + playerState.level + 
         ",\"SkillUpgradeRecord\": {"+upgradeData+"}}";
         Debug.Log(playerData);
